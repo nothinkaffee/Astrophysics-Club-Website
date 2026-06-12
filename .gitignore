@@ -43,3 +43,6 @@ archive/
 club images/
 gallery_review/
 reference/
+
+# Firebase cache
+.firebase/
