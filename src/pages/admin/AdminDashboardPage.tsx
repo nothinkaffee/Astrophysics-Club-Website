@@ -693,7 +693,7 @@ export default function AdminDashboardPage() {
                 fontWeight: activeTab === tab ? "600" : "400",
                 textTransform: "none",
                 fontFamily: "'Inter', sans-serif",
-                fontSize: "0.85rem",
+                fontSize: "1.35rem",
                 letterSpacing: "-0.01em"
               }}
             >
@@ -703,7 +703,7 @@ export default function AdminDashboardPage() {
           <button 
             onClick={handleLogout} 
             className="side-nav-link"
-            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", padding: "8px 16px", color: "rgba(220, 38, 38, 0.85)", fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", textTransform: "none" }}
+            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", padding: "8px 16px", color: "rgba(220, 38, 38, 0.85)", fontFamily: "'Inter', sans-serif", fontSize: "1.35rem", textTransform: "none" }}
           >
             Logout
           </button>
