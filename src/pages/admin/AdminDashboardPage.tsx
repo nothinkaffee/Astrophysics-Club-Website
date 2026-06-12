@@ -671,12 +671,6 @@ export default function AdminDashboardPage() {
           </h1>
         </div>
 
-        <div style={{ marginTop: "16px", pointerEvents: "auto" }}>
-          <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontFamily: "monospace" }}>
-            Admin Controls & Seed Manager
-          </span>
-        </div>
-
         {/* Tab Controls */}
         <div style={{ marginTop: "40px", pointerEvents: "auto", display: "flex", flexWrap: "wrap", gap: "10px", borderBottom: "1px solid var(--border-color)", paddingBottom: "16px" }}>
           {(["gallery", "blogs", "events", "merchandise"] as const).map((tab) => (
@@ -696,10 +690,11 @@ export default function AdminDashboardPage() {
                 cursor: "pointer",
                 padding: "8px 16px",
                 color: activeTab === tab ? (theme === "dark" ? "#ffffff" : "#18181b") : "var(--text-muted)",
-                fontWeight: activeTab === tab ? "700" : "300",
+                fontWeight: activeTab === tab ? "600" : "400",
                 textTransform: "none",
-                fontFamily: "monospace",
-                letterSpacing: "0.1em"
+                fontFamily: "'Inter', sans-serif",
+                fontSize: "0.85rem",
+                letterSpacing: "-0.01em"
               }}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -708,7 +703,7 @@ export default function AdminDashboardPage() {
           <button 
             onClick={handleLogout} 
             className="side-nav-link"
-            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", padding: "8px 16px", color: "rgba(220, 38, 38, 0.85)", fontFamily: "monospace", textTransform: "none" }}
+            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", padding: "8px 16px", color: "rgba(220, 38, 38, 0.85)", fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", textTransform: "none" }}
           >
             Logout
           </button>
@@ -728,10 +723,6 @@ export default function AdminDashboardPage() {
           
           {/* LEFT COLUMN: Manage Form */}
           <div>
-            <h2 className="vertical-section-title" style={{ fontFamily: "monospace", fontSize: "1.3rem", marginBottom: "20px", textTransform: "none" }}>
-              {editingGalleryId || editingBlogId || editingEventId || editingMerchId ? "Edit Item" : "Create Item"}
-            </h2>
-
             <div className="vertical-project-card" style={{ width: "100%" }}>
               <div className="card-content">
                 
@@ -1101,7 +1092,7 @@ export default function AdminDashboardPage() {
 
           {/* RIGHT COLUMN: Database View */}
           <div style={{ maxHeight: "75vh", overflowY: "auto", paddingRight: "10px" }}>
-            <h2 className="vertical-section-title" style={{ fontFamily: "monospace", fontSize: "1.3rem", marginBottom: "20px", textTransform: "none" }}>
+            <h2 className="vertical-section-title" style={{ fontFamily: "'Inter', sans-serif", fontWeight: "600", fontSize: "1.35rem", marginBottom: "20px", textTransform: "none", letterSpacing: "-0.02em" }}>
               Active Database Records
             </h2>
 

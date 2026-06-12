@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../hooks/useTheme";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
@@ -68,10 +68,12 @@ export default function SiteHeader() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [authResolved, setAuthResolved] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      setAuthResolved(true);
     });
     return unsubscribe;
   }, []);
@@ -136,9 +138,9 @@ export default function SiteHeader() {
   return (
     <header className="site-header">
       {/* Logo — top-left, absolutely positioned */}
-      <a href="/" className="header-center" style={{ cursor: "pointer", pointerEvents: "auto" }}>
+      <Link to="/" className="header-center" style={{ cursor: "pointer", pointerEvents: "auto" }}>
         {CONSTELLATION_SVG}
-      </a>
+      </Link>
 
       {/* Right nav — absolutely positioned; submenu floats left of it */}
       <nav className="header-right">
@@ -146,7 +148,7 @@ export default function SiteHeader() {
         <div className={`verticals-submenu ${activeSubmenu ? "submenu-open" : ""}`}>
           {activeSubmenu === "verticals" &&
             VERTICALS_SUBMENU.map(s => (
-              <a key={s.label} href={s.href} className="submenu-link">{s.label}</a>
+              <Link key={s.label} to={s.href} className="submenu-link">{s.label}</Link>
             ))}
           {activeSubmenu === "sponsorship" && (
             <div className="submenu-text-wrap">
@@ -155,7 +157,7 @@ export default function SiteHeader() {
           )}
           {activeSubmenu === "recruitment" &&
             RECRUITMENT_SUBMENU.map(s => (
-              <a key={s.label} href={s.href} className="submenu-link">{s.label}</a>
+              <Link key={s.label} to={s.href} className="submenu-link">{s.label}</Link>
             ))}
           {activeSubmenu === "join-us" && (
             <div className="submenu-text-wrap" style={{ maxWidth: "320px", whiteSpace: "normal" }}>
@@ -208,15 +210,17 @@ export default function SiteHeader() {
                   {item.label}
                 </button>
               ) : item.label === "Admin" ? (
-                currentUser ? (
+                !authResolved ? (
+                  <span key="admin-resolving" className="info-line" style={{ opacity: 0 }}>Admin</span>
+                ) : currentUser ? (
                   <React.Fragment key="admin-logged-in">
-                    <a
-                      href="/admin"
+                    <Link
+                      to="/admin"
                       className="info-line"
                       style={{ textTransform: "uppercase", textAlign: "right" }}
                     >
                       Dashboard
-                    </a>
+                    </Link>
                     <button
                       onClick={handleLogout}
                       className="info-line"
@@ -238,14 +242,25 @@ export default function SiteHeader() {
                   </button>
                 )
               ) : (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="info-line"
-                  {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                >
-                  {item.label}
-                </a>
+                item.external ? (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="info-line"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    className="info-line"
+                  >
+                    {item.label}
+                  </Link>
+                )
               )
             )}
           </div>
@@ -284,14 +299,25 @@ export default function SiteHeader() {
                   {item.label}
                 </button>
               ) : (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="side-nav-link"
-                  {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                >
-                  {item.label}
-                </a>
+                item.external ? (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="side-nav-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    className="side-nav-link"
+                  >
+                    {item.label}
+                  </Link>
+                )
               )
             )}
 
