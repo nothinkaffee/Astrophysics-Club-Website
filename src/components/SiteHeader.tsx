@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../hooks/useTheme";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
@@ -87,6 +87,11 @@ export default function SiteHeader() {
       setActiveSubmenu(null);
       navigate("/admin");
     } catch (err: any) {
+      console.error("Firebase Login Error:", err.code, err.message);
+      if (err.code === "auth/operation-not-allowed") {
+        setLoginError("Email/Password provider is disabled in Firebase Console. Please enable it.");
+        return;
+      }
       if ((err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") && username === "admin" && password === "adastra") {
         try {
           await createUserWithEmailAndPassword(auth, email, password);
@@ -96,7 +101,12 @@ export default function SiteHeader() {
           navigate("/admin");
           return;
         } catch (createErr: any) {
-          setLoginError(createErr.message);
+          console.error("Firebase SignUp Error:", createErr.code, createErr.message);
+          if (createErr.code === "auth/operation-not-allowed") {
+            setLoginError("Email/Password provider is disabled in Firebase Console. Please enable it.");
+          } else {
+            setLoginError(createErr.message);
+          }
           return;
         }
       }
@@ -153,19 +163,7 @@ export default function SiteHeader() {
             </div>
           )}
           {activeSubmenu === "admin" && (
-            currentUser ? (
-              <div className="submenu-login-form" style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "flex-end" }}>
-                <span className="submenu-link" style={{ fontSize: "0.65rem", textTransform: "none", color: "var(--glass-teal-dim)", whiteSpace: "nowrap" }}>
-                  Active: {currentUser.email?.split("@")[0]}
-                </span>
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <a href="/admin" className="submenu-link" style={{ color: "var(--glass-teal)" }}>Dash</a>
-                  <button onClick={handleLogout} className="submenu-link" style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(220, 38, 38, 0.85)" }}>
-                    Logout
-                  </button>
-                </div>
-              </div>
-            ) : (
+            currentUser ? null : (
               <form className="submenu-login-form" onSubmit={handleLoginSubmit}>
                 <input 
                   type="text" 
@@ -210,15 +208,35 @@ export default function SiteHeader() {
                   {item.label}
                 </button>
               ) : item.label === "Admin" ? (
-                <button
-                  key={item.label}
-                  className={`info-line info-btn ${activeSubmenu === "admin" ? "nav-active" : ""}`}
-                  onClick={e => { e.preventDefault(); toggle("admin"); }}
-                  type="button"
-                  style={{ background: "none", border: "none", padding: 0, cursor: "pointer", textTransform: "uppercase", textAlign: "right" }}
-                >
-                  {item.label}
-                </button>
+                currentUser ? (
+                  <React.Fragment key="admin-logged-in">
+                    <a
+                      href="/admin"
+                      className="info-line"
+                      style={{ textTransform: "uppercase", textAlign: "right" }}
+                    >
+                      Dashboard
+                    </a>
+                    <button
+                      onClick={handleLogout}
+                      className="info-line"
+                      type="button"
+                      style={{ background: "none", border: "none", padding: 0, cursor: "pointer", textTransform: "uppercase", textAlign: "right", color: "rgba(220, 38, 38, 0.85)" }}
+                    >
+                      Logout
+                    </button>
+                  </React.Fragment>
+                ) : (
+                  <button
+                    key={item.label}
+                    className={`info-line info-btn ${activeSubmenu === "admin" ? "nav-active" : ""}`}
+                    onClick={e => { e.preventDefault(); toggle("admin"); }}
+                    type="button"
+                    style={{ background: "none", border: "none", padding: 0, cursor: "pointer", textTransform: "uppercase", textAlign: "right" }}
+                  >
+                    Admin
+                  </button>
+                )
               ) : (
                 <a
                   key={item.label}

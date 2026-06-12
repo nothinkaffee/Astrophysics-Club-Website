@@ -18,6 +18,7 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../../hooks/useTheme";
 
 // Types
 interface GalleryItem {
@@ -75,6 +76,7 @@ interface MerchItem {
 
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [loadingUser, setLoadingUser] = useState(true);
 
@@ -658,17 +660,20 @@ export default function AdminDashboardPage() {
 
   return (
     <main className="page-scroll">
-      <div className="vertical-page-container" style={{ paddingRight: "32px", paddingLeft: "32px" }}>
+      <div className="vertical-page-container">
         
         {/* Header exact match with team and events */}
-        <div ref={containerRef} className="radio-headline" style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "10px" }}>
+        <div ref={containerRef} className="radio-headline">
           <h1 ref={textRef} className="radio-headline-text">
             {"Database".split("").map((ch, i) => (
               <span key={i}>{ch === " " ? "\u00A0" : ch}</span>
             ))}
           </h1>
-          <span className="section-label" style={{ margin: 0 }}>
-            ADMIN CONTROLS & SEED MANAGER
+        </div>
+
+        <div style={{ marginTop: "16px", pointerEvents: "auto" }}>
+          <span style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontFamily: "monospace" }}>
+            Admin Controls & Seed Manager
           </span>
         </div>
 
@@ -690,20 +695,20 @@ export default function AdminDashboardPage() {
                 border: "none",
                 cursor: "pointer",
                 padding: "8px 16px",
-                color: activeTab === tab ? "var(--glass-teal)" : "inherit",
-                fontWeight: activeTab === tab ? "600" : "300",
-                textTransform: "uppercase",
+                color: activeTab === tab ? (theme === "dark" ? "#ffffff" : "#18181b") : "var(--text-muted)",
+                fontWeight: activeTab === tab ? "700" : "300",
+                textTransform: "none",
                 fontFamily: "monospace",
                 letterSpacing: "0.1em"
               }}
             >
-              {tab}
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
           ))}
           <button 
             onClick={handleLogout} 
             className="side-nav-link"
-            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", padding: "8px 16px", color: "rgba(220, 38, 38, 0.85)", fontFamily: "monospace" }}
+            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", padding: "8px 16px", color: "rgba(220, 38, 38, 0.85)", fontFamily: "monospace", textTransform: "none" }}
           >
             Logout
           </button>
@@ -711,10 +716,10 @@ export default function AdminDashboardPage() {
 
         {/* Upload progress indicator */}
         {uploadProgress !== null && (
-          <div style={{ pointerEvents: "auto", marginTop: "20px", padding: "16px", background: "var(--card-bg)", border: "1px solid var(--glass-teal-dim)", borderRadius: "4px" }}>
-            <p style={{ margin: "0 0 8px 0", fontSize: "0.8rem", fontFamily: "monospace", color: "var(--glass-teal)" }}>UPLOADING STORAGE ASSETS: {uploadProgress}%</p>
+          <div style={{ pointerEvents: "auto", marginTop: "20px", padding: "16px", background: "var(--card-bg)", border: "1px solid var(--border-color)", borderRadius: "4px" }}>
+            <p style={{ margin: "0 0 8px 0", fontSize: "0.8rem", fontFamily: "monospace", color: "var(--text-color)" }}>UPLOADING STORAGE ASSETS: {uploadProgress}%</p>
             <div style={{ width: "100%", height: "4px", background: "rgba(0,0,0,0.05)", borderRadius: "2px", overflow: "hidden" }}>
-              <div style={{ width: `${uploadProgress}%`, height: "100%", background: "var(--glass-teal)" }} />
+              <div style={{ width: `${uploadProgress}%`, height: "100%", background: "var(--text-color)" }} />
             </div>
           </div>
         )}
@@ -723,7 +728,7 @@ export default function AdminDashboardPage() {
           
           {/* LEFT COLUMN: Manage Form */}
           <div>
-            <h2 className="vertical-section-title" style={{ fontFamily: "monospace", fontSize: "1.3rem", marginBottom: "20px", textTransform: "uppercase" }}>
+            <h2 className="vertical-section-title" style={{ fontFamily: "monospace", fontSize: "1.3rem", marginBottom: "20px", textTransform: "none" }}>
               {editingGalleryId || editingBlogId || editingEventId || editingMerchId ? "Edit Item" : "Create Item"}
             </h2>
 
@@ -834,7 +839,7 @@ export default function AdminDashboardPage() {
                           <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(0,0,0,0.03)", padding: "6px 10px", borderRadius: "3px", fontSize: "0.8rem" }}>
                             <span>Ch {ch.id}: {ch.title}</span>
                             <div style={{ display: "flex", gap: "8px" }}>
-                              <button type="button" onClick={() => startEditChapter(idx)} style={{ border: "none", background: "none", cursor: "pointer", color: "var(--glass-teal)" }}>Edit</button>
+                              <button type="button" onClick={() => startEditChapter(idx)} style={{ border: "none", background: "none", cursor: "pointer", color: "inherit", textDecoration: "underline" }}>Edit</button>
                               <button type="button" onClick={() => deleteChapter(idx)} style={{ border: "none", background: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)" }}>Del</button>
                             </div>
                           </div>
@@ -1096,7 +1101,7 @@ export default function AdminDashboardPage() {
 
           {/* RIGHT COLUMN: Database View */}
           <div style={{ maxHeight: "75vh", overflowY: "auto", paddingRight: "10px" }}>
-            <h2 className="vertical-section-title" style={{ fontFamily: "monospace", fontSize: "1.3rem", marginBottom: "20px", textTransform: "uppercase" }}>
+            <h2 className="vertical-section-title" style={{ fontFamily: "monospace", fontSize: "1.3rem", marginBottom: "20px", textTransform: "none" }}>
               Active Database Records
             </h2>
 
@@ -1118,7 +1123,7 @@ export default function AdminDashboardPage() {
                         <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--text-muted)" }}>{item.description}</p>
                       </div>
                       <div style={{ display: "flex", gap: "12px", marginTop: "8px" }}>
-                        <button onClick={() => handleEditGallery(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--glass-teal)", fontSize: "0.75rem", padding: 0 }}>Edit</button>
+                        <button onClick={() => handleEditGallery(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", textDecoration: "underline", fontSize: "0.75rem", padding: 0 }}>Edit</button>
                         <button onClick={() => handleDeleteGallery(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem", padding: 0 }}>Delete</button>
                       </div>
                     </div>
@@ -1135,7 +1140,7 @@ export default function AdminDashboardPage() {
                     <p style={{ margin: "0 0 8px 0", fontSize: "0.75rem", color: "var(--text-muted)" }}>By {item.author} · {item.chapters.length} chapters · Updated {item.lastUpdated}</p>
                     <p style={{ margin: "0 0 12px 0", fontSize: "0.8rem" }}>{item.description.substring(0, 100)}...</p>
                     <div style={{ display: "flex", gap: "16px" }}>
-                      <button onClick={() => handleEditBlog(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--glass-teal)", fontSize: "0.75rem", padding: 0 }}>Edit</button>
+                      <button onClick={() => handleEditBlog(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", textDecoration: "underline", fontSize: "0.75rem", padding: 0 }}>Edit</button>
                       <button onClick={() => handleDeleteBlog(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem", padding: 0 }}>Delete</button>
                     </div>
                   </div>
@@ -1148,10 +1153,10 @@ export default function AdminDashboardPage() {
                 {activeTab === "events" && events.map((item) => (
                   <div key={item.id} className="vertical-project-card" style={{ padding: "16px" }}>
                     <h4 style={{ margin: "0 0 4px 0", fontSize: "1rem", fontWeight: 600 }}>{item.title}</h4>
-                    <p style={{ margin: "0 0 8px 0", fontSize: "0.75rem", color: "var(--text-muted)" }}>{item.date} · {item.venue} · Reg: <span style={{ color: item.registrationStatus === "open" ? "var(--glass-teal)" : "rgba(220,38,38,0.85)" }}>{item.registrationStatus.toUpperCase()}</span></p>
+                    <p style={{ margin: "0 0 8px 0", fontSize: "0.75rem", color: "var(--text-muted)" }}>{item.date} · {item.venue} · Reg: <span style={{ color: item.registrationStatus === "open" ? "#22c55e" : "rgba(220,38,38,0.85)", fontWeight: "500" }}>{item.registrationStatus.charAt(0).toUpperCase() + item.registrationStatus.slice(1)}</span></p>
                     <p style={{ margin: "0 0 12px 0", fontSize: "0.8rem" }}>{item.description}</p>
                     <div style={{ display: "flex", gap: "16px" }}>
-                      <button onClick={() => handleEditEvent(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--glass-teal)", fontSize: "0.75rem", padding: 0 }}>Edit</button>
+                      <button onClick={() => handleEditEvent(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", textDecoration: "underline", fontSize: "0.75rem", padding: 0 }}>Edit</button>
                       <button onClick={() => handleDeleteEvent(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem", padding: 0 }}>Delete</button>
                     </div>
                   </div>
@@ -1166,12 +1171,12 @@ export default function AdminDashboardPage() {
                     <img src={item.src} alt={item.title} style={{ width: "80px", height: "80px", objectFit: "cover", borderRadius: "4px", border: "1px solid var(--border-color)" }} />
                     <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                       <div>
-                        <span style={{ fontSize: "0.62rem", textTransform: "uppercase", background: "var(--glass-teal-faint)", color: "var(--glass-teal-dim)", padding: "2px 6px", borderRadius: "2px" }}>{item.category}</span>
+                        <span style={{ fontSize: "0.62rem", textTransform: "uppercase", background: "rgba(113,113,122,0.1)", color: "var(--text-muted)", padding: "2px 6px", borderRadius: "2px" }}>{item.category}</span>
                         <h4 style={{ margin: "4px 0 4px 0", fontSize: "0.95rem", fontWeight: 600 }}>{item.title}</h4>
                         <p style={{ margin: 0, fontSize: "0.75rem", color: "var(--text-muted)" }}>{item.description}</p>
                       </div>
                       <div style={{ display: "flex", gap: "12px", marginTop: "8px" }}>
-                        <button onClick={() => handleEditMerch(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--glass-teal)", fontSize: "0.75rem", padding: 0 }}>Edit</button>
+                        <button onClick={() => handleEditMerch(item)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", textDecoration: "underline", fontSize: "0.75rem", padding: 0 }}>Edit</button>
                         <button onClick={() => handleDeleteMerch(item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(220, 38, 38, 0.85)", fontSize: "0.75rem", padding: 0 }}>Delete</button>
                       </div>
                     </div>
