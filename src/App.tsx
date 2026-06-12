@@ -90,8 +90,8 @@ export default function App() {
               field-of-view="8deg"
               min-field-of-view="1deg"
               max-field-of-view="120deg"
-              min-camera-orbit="auto auto 200m"
-              max-camera-orbit="auto auto 10000m"
+              min-camera-orbit="auto auto 10m"
+              max-camera-orbit="auto auto 50000m"
               style={{ width: "100%", height: "100%", opacity: 0, transition: "opacity 1s ease" }}
             />
           )}
