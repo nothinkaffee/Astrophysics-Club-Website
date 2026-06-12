@@ -44,9 +44,10 @@ export default function ApodPanel() {
         )}
         {data && data.media_type === "image" && (
           <img
-            src={data.hdurl ?? data.url}
+            src={data.url ?? data.hdurl}
             alt={data.title}
             className="apod-img"
+            loading="lazy"
           />
         )}
         {data && data.media_type === "video" && (

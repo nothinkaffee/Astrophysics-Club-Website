@@ -166,24 +166,24 @@ export default function SiteHeader() {
                 </div>
               </div>
             ) : (
-              <form className="submenu-login-form" onSubmit={handleLoginSubmit} style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-                <div style={{ display: "flex", gap: "4px" }}>
-                  <input 
-                    type="text" 
-                    placeholder="Username" 
-                    className="login-input" 
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                  />
-                  <input 
-                    type="password" 
-                    placeholder="Password" 
-                    className="login-input" 
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                  />
-                  <button type="submit" className="login-submit-btn">&gt;</button>
-                </div>
+              <form className="submenu-login-form" onSubmit={handleLoginSubmit}>
+                <input 
+                  type="text" 
+                  placeholder="Username" 
+                  className="login-input" 
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <input 
+                  type="password" 
+                  placeholder="Password" 
+                  className="login-input" 
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+                <button type="submit" className="login-submit-btn" style={{ marginTop: "4px" }}>&gt;</button>
                 {loginError && (
                   <span style={{ fontSize: "10px", color: "rgba(220, 38, 38, 0.85)", marginTop: "4px", textTransform: "none", fontFamily: "monospace" }}>
                     {loginError}
