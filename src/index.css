@@ -329,6 +329,10 @@ html,body {
 
 .page-scroll a,
 .page-scroll button,
+.page-scroll .radio-projects-table-container,
+.page-scroll .blog-reader-table-container,
+.page-scroll .team-table-container,
+.page-scroll .recruit-branch-section,
 .hero-content,
 .about-headline,
 .about-columns,
@@ -339,6 +343,7 @@ html,body {
 /* ── Sections ────────────────────────────────────────────────────────────── */
 .section {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -206,9 +206,7 @@ export default function SiteHeader() {
             ))}
           {activeSubmenu === "sponsorship" && (
             <div className="submenu-text-wrap" style={{ whiteSpace: "normal" }}>
-              We welcome corporate and individual sponsors to support our projects, events, and outreach initiatives.<br />
-              Your contributions directly fund astronomical research, public stargazing sessions, and educational workshops.<br />
-              For sponsorship opportunities and partnership details, email us at <a href="https://mail.google.com/mail/?view=cm&fs=1&to=teamdhruva@rvce.edu.in" target="_blank" rel="noopener noreferrer" className="submenu-email-link">teamdhruva@rvce.edu.in</a>
+              For sponsorship enquiries, email us at <a href="https://mail.google.com/mail/?view=cm&fs=1&to=teamdhruva@rvce.edu.in" target="_blank" rel="noopener noreferrer" className="submenu-email-link">teamdhruva@rvce.edu.in</a>
             </div>
           )}
           {activeSubmenu === "recruitment" &&
@@ -373,9 +371,7 @@ export default function SiteHeader() {
                 ))}
               {activeSubmenu === "sponsorship" && (
                 <div className="submenu-text-wrap" style={{ whiteSpace: "normal" }}>
-                  We welcome corporate and individual sponsors to support our projects, events, and outreach initiatives.<br />
-                  Your contributions directly fund astronomical research, public stargazing sessions, and educational workshops.<br />
-                  For sponsorship opportunities and partnership details, email us at <a href="https://mail.google.com/mail/?view=cm&fs=1&to=teamdhruva@rvce.edu.in" target="_blank" rel="noopener noreferrer" className="submenu-email-link">teamdhruva@rvce.edu.in</a>
+                  For sponsorship enquiries, email us at <a href="https://mail.google.com/mail/?view=cm&fs=1&to=teamdhruva@rvce.edu.in" target="_blank" rel="noopener noreferrer" className="submenu-email-link">teamdhruva@rvce.edu.in</a>
                 </div>
               )}
               {activeSubmenu === "recruitment" &&
