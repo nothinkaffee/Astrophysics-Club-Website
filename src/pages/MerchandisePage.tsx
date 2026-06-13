@@ -38,8 +38,6 @@ const MERCH_ITEMS: MerchItem[] = [
 
 export default function MerchandisePage() {
   const [merchItems, setMerchItems] = useState<MerchItem[]>(MERCH_ITEMS);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const selectedItem = selectedIndex !== null ? merchItems[selectedIndex] : null;
 
   useEffect(() => {
     const fetchMerch = async () => {
@@ -126,20 +124,6 @@ export default function MerchandisePage() {
     };
   }, []);
 
-  const handlePrev = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (selectedIndex !== null) {
-      setSelectedIndex(prev => (prev === 0 ? merchItems.length - 1 : prev! - 1));
-    }
-  };
-
-  const handleNext = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (selectedIndex !== null) {
-      setSelectedIndex(prev => (prev === merchItems.length - 1 ? 0 : prev! + 1));
-    }
-  };
-
   return (
     <>
       <main className="page-scroll">
@@ -159,7 +143,6 @@ export default function MerchandisePage() {
                 <div
                   key={index}
                   className="merch-card"
-                  onClick={() => setSelectedIndex(index)}
                 >
                   <div className="merch-img-wrapper">
                     <img src={item.src} alt={item.title} className="merch-img" loading="lazy" />
@@ -174,61 +157,6 @@ export default function MerchandisePage() {
           <p className="footer-copy">© 2026 Team Dhruva | Licensed under the MIT License.</p>
         </footer>
       </main>
-
-      {/* NASA-style Lightbox Modal */}
-      {selectedItem && (
-        <div className="nasa-lightbox-overlay" style={{ pointerEvents: "auto" }} onClick={() => setSelectedIndex(null)}>
-          <button className="nasa-lightbox-close-btn" onClick={() => setSelectedIndex(null)}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-          
-          <button className="gallery-nav-btn prev-btn" onClick={handlePrev}>
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-          <button className="gallery-nav-btn next-btn" onClick={handleNext}>
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
-
-          <div className="nasa-lightbox-container" onClick={(e) => e.stopPropagation()}>
-            <div className="nasa-lightbox-image-section">
-              <img src={selectedItem.src} alt={selectedItem.title} className="nasa-lightbox-image" />
-            </div>
-
-            <div className="nasa-lightbox-details-section">
-              <div className="nasa-details-content">
-                <span className="nasa-tag">{selectedItem.category} Collection</span>
-                <h2 className="nasa-title">{selectedItem.title}</h2>
-                <div className="nasa-divider" />
-                <p className="nasa-description">{selectedItem.description}</p>
-                
-                <div className="nasa-meta-grid">
-                  <div className="nasa-meta-item">
-                    <span className="nasa-meta-label">Availability</span>
-                    <span className="nasa-meta-val">Limited Batch Epoch J2026.9</span>
-                  </div>
-                  <div className="nasa-meta-item">
-                    <span className="nasa-meta-label">Material</span>
-                    <span className="nasa-meta-val">Premium Heavyweight Cotton</span>
-                  </div>
-                </div>
-
-                <div className="nasa-actions">
-                  <a href={selectedItem.src} download className="nasa-download-btn">
-                    <span className="download-icon">↓</span> Download Mockup File
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
