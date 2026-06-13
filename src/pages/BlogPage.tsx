@@ -101,23 +101,19 @@ export default function BlogPage() {
     } else {
       setActiveChapter(null);
     }
-    document.querySelector(".page-scroll")?.scrollTo(0, 0);
   };
 
   const handleChapterClick = (chapter: Chapter) => {
     setActiveChapter(chapter);
-    document.querySelector(".page-scroll")?.scrollTo(0, 0);
   };
 
   const handleBackToChapters = () => {
     setActiveChapter(null);
-    document.querySelector(".page-scroll")?.scrollTo(0, 0);
   };
 
   const handleBackToBlogs = () => {
     setActiveBlog(null);
     setActiveChapter(null);
-    document.querySelector(".page-scroll")?.scrollTo(0, 0);
   };
 
   const handlePrevChapter = () => {
@@ -125,7 +121,6 @@ export default function BlogPage() {
     const currentIndex = activeBlog.chapters.findIndex(c => c.id === activeChapter.id);
     if (currentIndex > 0) {
       setActiveChapter(activeBlog.chapters[currentIndex - 1]);
-      document.querySelector(".page-scroll")?.scrollTo(0, 0);
     }
   };
 
@@ -134,7 +129,6 @@ export default function BlogPage() {
     const currentIndex = activeBlog.chapters.findIndex(c => c.id === activeChapter.id);
     if (currentIndex < activeBlog.chapters.length - 1) {
       setActiveChapter(activeBlog.chapters[currentIndex + 1]);
-      document.querySelector(".page-scroll")?.scrollTo(0, 0);
     }
   };
 

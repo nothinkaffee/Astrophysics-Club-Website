@@ -45,10 +45,6 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 html,body {
   margin: 0;
   padding: 0;
@@ -1038,11 +1034,6 @@ html,body {
     padding-right: 32px;
     padding-top: 180px;
   }
-  .radio-projects-table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-  }
   .team-table-container,
   .recruit-branch-section {
     overflow-x: auto;
@@ -1074,6 +1065,9 @@ html,body {
   margin-top: 80px;
   width: 100%;
   max-width: 1200px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   opacity: 0;
   animation: heroFadeUp 0.8s ease forwards;
   animation-delay: 0.35s;
