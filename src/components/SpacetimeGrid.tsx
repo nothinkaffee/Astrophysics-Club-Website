@@ -467,6 +467,7 @@ export default function SpacetimeGrid() {
         height: "100vh",
         zIndex: 1,
         pointerEvents: "auto",
+        touchAction: "manipulation",
         display: "block",
         backgroundColor: "var(--bg-color)",
       }}
