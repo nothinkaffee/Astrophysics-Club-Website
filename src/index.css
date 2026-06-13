@@ -1035,6 +1035,14 @@ html,body {
   }
   .radio-projects-table-container {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .team-table-container,
+  .recruit-branch-section {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
   }
   .radio-projects-table {
     min-width: 640px;
@@ -2524,6 +2532,8 @@ html,body {
 .blog-reader-table-container {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   margin: 32px 0;
 }
 
@@ -2635,7 +2645,7 @@ html,body {
   justify-content: center;
   background: none;
   border: none;
-  padding: 8px;
+  padding: 0;
   margin: 0;
   cursor: pointer;
   color: var(--text-color);
@@ -2643,16 +2653,14 @@ html,body {
   transition: opacity 0.18s;
   line-height: 1;
   pointer-events: auto;
-  border-radius: 4px;
-  background: var(--bg-color);
 }
 .header-reveal-btn:hover {
   opacity: 1;
 }
 
 .header-reveal-arrow {
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
 }
 
 /* On desktop the toggle is in nav-links-col; on mobile it's in the social column. */
@@ -2672,8 +2680,8 @@ html,body {
   }
 
   .header-reveal-arrow {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
   }
 }
 

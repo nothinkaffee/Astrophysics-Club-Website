@@ -94,16 +94,12 @@ export default function EventsPage() {
 
   const handleEventClick = (event: EventDetail) => {
     setActiveEvent(event);
-    window.scrollTo(0, 0);
-    const pageScroll = document.querySelector(".page-scroll");
-    if (pageScroll) pageScroll.scrollTop = 0;
+    document.querySelector(".page-scroll")?.scrollTo(0, 0);
   };
 
   const handleBackToEvents = () => {
     setActiveEvent(null);
-    window.scrollTo(0, 0);
-    const pageScroll = document.querySelector(".page-scroll");
-    if (pageScroll) pageScroll.scrollTop = 0;
+    document.querySelector(".page-scroll")?.scrollTo(0, 0);
   };
 
   return (
