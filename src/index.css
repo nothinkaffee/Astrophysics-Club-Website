@@ -248,7 +248,7 @@ html,body {
   top: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 2px;
   white-space: nowrap;
   padding-right: 28px;
@@ -275,7 +275,7 @@ html,body {
   color: #000000;
   text-decoration: none;
   line-height: 1.4;
-  text-align: left;
+  text-align: right;
   transition: color 0.18s;
 }
 
@@ -440,7 +440,7 @@ html,body {
   font-family: 'Aeronaut', Georgia, serif;
   font-size: clamp(5rem, 12vw, 10rem);
   font-weight: normal;
-  line-height: 0.9;
+  line-height: 1.1;
   color: #18181b;
   letter-spacing: -0.02em;
 }
@@ -698,7 +698,6 @@ html,body {
     font-size: clamp(4.5rem, 20vw, 8rem);
     text-align: center;
     white-space: nowrap;
-    overflow: hidden;
   }
   .hero-iss-container {
     position: absolute;
@@ -1675,6 +1674,8 @@ html,body {
   line-height: 1.6;
   text-align: left;
   white-space: nowrap;
+  width: 100%;
+  align-self: flex-start;
 }
 
 .submenu-email-link {
@@ -2599,6 +2600,83 @@ html,body {
 
 
 
+/* ── Header Toggle Buttons ─────────────────────────────────────────────────── */
+.header-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  color: var(--text-color);
+  opacity: 0.7;
+  transition: opacity 0.18s;
+  line-height: 1;
+  pointer-events: auto;
+}
+.header-toggle-btn:hover {
+  opacity: 1;
+}
+
+.header-toggle-x {
+  width: 18px;
+  height: 18px;
+}
+
+.header-reveal-btn {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 8px;
+  margin: 0;
+  cursor: pointer;
+  color: var(--text-color);
+  opacity: 0.7;
+  transition: opacity 0.18s;
+  line-height: 1;
+  pointer-events: auto;
+  border-radius: 4px;
+  background: var(--bg-color);
+}
+.header-reveal-btn:hover {
+  opacity: 1;
+}
+
+.header-reveal-arrow {
+  width: 18px;
+  height: 18px;
+}
+
+/* On desktop the toggle is in nav-links-col; on mobile it's in the social column. */
+@media (max-width: 768px) {
+  .nav-links-col .header-toggle-btn {
+    display: none;
+  }
+}
+@media (min-width: 769px) {
+  .mobile-social-col .header-toggle-btn {
+    display: none;
+  }
+
+  .header-toggle-x {
+    width: 28px;
+    height: 28px;
+  }
+
+  .header-reveal-arrow {
+    width: 28px;
+    height: 28px;
+  }
+}
+
 /* ── Grid Lines Transition ───────────────────────────────────────────────── */
 #grid-lines-group path {
   transition: stroke 0.3s ease;
@@ -2705,7 +2783,7 @@ html,body {
     width: 100%;
     min-width: 0;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   /* Hide the desktop info column */
@@ -2723,13 +2801,17 @@ html,body {
     flex-grow: 0;
   }
 
+  .mobile-social-col .header-toggle-btn {
+    margin-top: auto;
+  }
+
   /* Show left divider */
   .mobile-left-divider {
     display: block;
     width: 1px;
     align-self: stretch;
     background: rgba(113, 113, 122, 0.22);
-    margin: 0 10px;
+    margin: 0 12px 0 18px;
     flex-shrink: 0;
   }
 
@@ -2741,6 +2823,7 @@ html,body {
     flex: 1;
     min-width: 0;
     overflow: hidden;
+    align-self: center;
   }
 
   .mobile-logo-area .constellation-svg {
@@ -2748,18 +2831,22 @@ html,body {
     height: auto;
     opacity: 0.85;
     flex-shrink: 0;
-    margin-left: 14px;
+    margin-left: 24px;
+    margin-top: -6px;
   }
 
   /* When submenu is active, the submenu-items fill the space with wrapping */
   .mobile-logo-area.submenu-active {
     justify-content: flex-start;
+    align-items: flex-start;
+    align-self: flex-start;
+    overflow: visible;
   }
 
   .mobile-submenu-items {
     width: 100%;
     min-width: 0;
-    align-items: flex-start;
+    align-items: flex-end;
   }
 
   .mobile-submenu-items .submenu-link {
@@ -2767,7 +2854,7 @@ html,body {
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
-    text-align: left;
+    text-align: right;
   }
 
   .mobile-submenu-items .submenu-text-wrap {
@@ -2775,6 +2862,8 @@ html,body {
     word-wrap: break-word;
     overflow-wrap: break-word;
     text-align: left;
+    width: 100%;
+    align-self: flex-start;
   }
 
   /* Hide the old submenu panel on mobile (replaced by mobile-logo-area submenu) */
@@ -2787,6 +2876,11 @@ html,body {
     align-items: flex-end;
     flex-shrink: 0;
     flex-grow: 0;
+  }
+
+  .nav-links-col .theme-toggle-btn {
+    margin-top: auto;
+    padding-top: 1.2em;
   }
 
   .nav-links-col .side-nav-link,
@@ -2862,7 +2956,7 @@ html,body {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    align-items: flex-start;
+    align-items: flex-end;
     width: 100%;
     max-width: 200px;
   }

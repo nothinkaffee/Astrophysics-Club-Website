@@ -76,6 +76,15 @@ export default function SiteHeader() {
   const [loginError, setLoginError] = useState("");
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [authResolved, setAuthResolved] = useState(false);
+  const [headerHidden, setHeaderHidden] = useState(() => localStorage.getItem("headerHidden") === "true");
+
+  const toggleHeader = () => {
+    setHeaderHidden(h => {
+      const next = !h;
+      localStorage.setItem("headerHidden", String(next));
+      return next;
+    });
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -124,7 +133,7 @@ export default function SiteHeader() {
   const toggle = (menu: "verticals" | "sponsorship" | "recruitment" | "join-us" | "admin") =>
     setActiveSubmenu(prev => (prev === menu ? null : menu));
 
-  const SOCIAL_ICON_SIZE = 30;
+  const SOCIAL_ICON_SIZE = 17.25;
   const renderSocialIcon = (icon: string) => {
     switch (icon) {
       case "marker":
@@ -145,6 +154,40 @@ export default function SiteHeader() {
   };
 
   const hasSubmenuOpen = activeSubmenu === "verticals" || activeSubmenu === "sponsorship" || activeSubmenu === "recruitment" || activeSubmenu === "join-us" || activeSubmenu === "admin";
+
+  const headerToggleBtn = (
+    <button
+      className="header-toggle-btn"
+      onClick={toggleHeader}
+      type="button"
+      title="Hide header"
+      aria-label="Hide header"
+    >
+      <svg viewBox="0 0 24 24" className="header-toggle-x" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
+  );
+
+  const headerRevealBtn = (
+    <button
+      className="header-reveal-btn"
+      onClick={toggleHeader}
+      type="button"
+      title="Show header"
+      aria-label="Show header"
+    >
+      <svg viewBox="0 0 24 24" className="header-reveal-arrow" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="17 11 12 6 7 11" />
+        <polyline points="17 18 12 13 7 18" />
+      </svg>
+    </button>
+  );
+
+  if (headerHidden) {
+    return headerRevealBtn;
+  }
 
   return (
     <header className="site-header">
@@ -171,7 +214,7 @@ export default function SiteHeader() {
               <Link key={s.label} to={s.href} className="submenu-link">{s.label}</Link>
             ))}
           {activeSubmenu === "join-us" && (
-            <div className="submenu-text-wrap" style={{ maxWidth: "320px", whiteSpace: "normal" }}>
+            <div className="submenu-text-wrap" style={{ whiteSpace: "normal" }}>
               Send us a letter of motivation and interests through Email: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=teamdhruva@rvce.edu.in" target="_blank" rel="noopener noreferrer" className="submenu-email-link">teamdhruva@rvce.edu.in</a> and we will get back to you regarding your interview and evaluation as soon as possible
             </div>
           )}
@@ -237,6 +280,7 @@ export default function SiteHeader() {
                 style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
               >{renderSocialIcon("admin")}</button>
             )}
+            {headerToggleBtn}
           </div>
 
           {/* Left divider — visible only on mobile */}
@@ -366,8 +410,8 @@ export default function SiteHeader() {
                     )}
                   </form>
                 )
-              )}
-            </div>
+            )}
+          </div>
           </div>
 
           {/* Permanent divider */}
@@ -436,8 +480,9 @@ export default function SiteHeader() {
             )}
 
             <button type="button" className="theme-toggle-btn" onClick={toggleTheme}>
-              {theme === "dark" ? "Light Mode ☼" : "Dark Mode ☽"}
+              {theme === "dark" ? "Light Mode" : "Dark Mode"}
             </button>
+            {headerToggleBtn}
           </div>
         </div>
       </nav>
