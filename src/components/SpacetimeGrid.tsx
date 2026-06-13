@@ -156,6 +156,7 @@ export default function SpacetimeGrid() {
     const sinTilt = Math.sin(tilt);
 
     let time = 0;
+    let frameCount = 0;
 
     const project = (gx: number, gy: number, gzOverride?: number) => {
       const cameraDistance = Math.max(width, height) + 1000;
@@ -196,7 +197,14 @@ export default function SpacetimeGrid() {
     };
 
     const render = () => {
+      frameCount++;
       time += 0.07;
+
+      // Skip every other frame — reduces GPU work during scroll
+      if (frameCount % 2 === 0) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
 
       // --- Physical N-Body 3-Body Integration Loop ---
       // Sub-stepping for integration stability (4 steps per frame)
@@ -444,6 +452,15 @@ export default function SpacetimeGrid() {
 
     render();
 
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(animationFrameId);
+      } else {
+        render();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     return () => {
       cancelAnimationFrame(animationFrameId);
       if (resizeTimer) clearTimeout(resizeTimer);
@@ -452,6 +469,7 @@ export default function SpacetimeGrid() {
       svg.removeEventListener("mousemove", handleMouseMove);
       svg.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
@@ -467,7 +485,6 @@ export default function SpacetimeGrid() {
         height: "100vh",
         zIndex: 1,
         pointerEvents: "auto",
-        touchAction: "manipulation",
         display: "block",
         backgroundColor: "var(--bg-color)",
       }}

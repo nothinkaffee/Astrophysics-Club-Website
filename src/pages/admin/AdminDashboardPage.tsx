@@ -687,7 +687,7 @@ export default function AdminDashboardPage() {
                 setEditingEventId(null);
                 setEditingMerchId(null);
               }}
-              className="side-nav-link"
+              className="side-nav-link admin-tab-btn"
               style={{
                 background: "none",
                 border: "none",
@@ -707,9 +707,15 @@ export default function AdminDashboardPage() {
           <button 
             onClick={handleLogout} 
             className="side-nav-link"
-            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", padding: "8px 16px", color: "rgba(220, 38, 38, 0.85)", fontFamily: "'Inter', sans-serif", fontSize: "1.35rem", textTransform: "none" }}
+            style={{ marginLeft: "auto", background: "none", border: "none", cursor: "pointer", padding: "8px 16px", color: "rgba(220, 38, 38, 0.85)", fontFamily: "'Inter', sans-serif", fontSize: "1.35rem", textTransform: "none", display: "flex", alignItems: "center", gap: "6px" }}
+            title="Logout"
           >
-            Logout
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            <span className="admin-logout-label">Logout</span>
           </button>
         </div>
 
@@ -723,7 +729,7 @@ export default function AdminDashboardPage() {
           </div>
         )}
 
-        <div style={{ marginTop: "40px", display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: "40px", pointerEvents: "auto" }}>
+        <div className="admin-dashboard-grid" style={{ marginTop: "40px", display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: "40px", pointerEvents: "auto" }}>
           
           {/* LEFT COLUMN: Manage Form */}
           <div>
@@ -1095,7 +1101,7 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* RIGHT COLUMN: Database View */}
-          <div style={{ maxHeight: "75vh", overflowY: "auto", paddingRight: "10px" }}>
+          <div className="admin-dashboard-records" style={{ maxHeight: "75vh", overflowY: "auto", paddingRight: "10px" }}>
             <h2 className="vertical-section-title" style={{ fontFamily: "'Inter', sans-serif", fontWeight: "600", fontSize: "1.35rem", marginBottom: "20px", textTransform: "none", letterSpacing: "-0.02em" }}>
               Active Database Records
             </h2>

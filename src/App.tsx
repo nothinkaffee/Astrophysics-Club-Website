@@ -18,37 +18,6 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Smooth scroll-driven fade for the hero title
-  useEffect(() => {
-    const heroContent = document.querySelector<HTMLElement>(".hero-content");
-    if (!heroContent) return;
-
-    const update = () => {
-      const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const fadeOver = window.innerHeight * 0.5;
-      const pct = Math.min(1, Math.max(0, scrollY / fadeOver));
-      heroContent.style.opacity = String(1 - pct);
-      heroContent.style.transform = `translateY(${pct * -40}px)`;
-    };
-
-    // Run once immediately in case page loaded mid-scroll
-    update();
-
-    let rafId = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(update);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(rafId);
-      heroContent.style.opacity = "1";
-      heroContent.style.transform = "none";
-    };
-  }, []);
-
   // Smooth scroll to About section if hash present
   useEffect(() => {
     if (location.hash === "#next") {

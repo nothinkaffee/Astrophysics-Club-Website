@@ -51,8 +51,8 @@ html,body {
   width: 100%;
   background-color: var(--bg-color);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
   overflow-anchor: none;
+  touch-action: pan-y;
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -321,7 +321,7 @@ html,body {
 .page-scroll {
   position: relative;
   z-index: 3;
-  pointer-events: none;
+  touch-action: pan-y;
 }
 
 .page-scroll a,
@@ -339,12 +339,11 @@ html,body {
 
 /* ── Sections ────────────────────────────────────────────────────────────── */
 .section {
-  min-height: 100vh;
-  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 80px 48px;
+  touch-action: pan-y;
 }
 
 .section-inner {
@@ -375,6 +374,8 @@ html,body {
   padding-bottom: 100px;
   padding-left: 96px;
   position: relative;
+  touch-action: pan-y;
+  min-height: 100svh;
 }
 
 /* Invisible overlay covering the bottom of the hero (where the title sits).
@@ -397,8 +398,6 @@ html,body {
   height: 100%;
   z-index: 1;
   pointer-events: auto;
-  transform: translateZ(0);
-  will-change: transform;
 }
 
 @media (max-width: 1024px) {
@@ -414,9 +413,6 @@ html,body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  /* opacity + transform driven by JS scroll listener in App.tsx */
-  will-change: opacity, transform;
-  transition: opacity 0.08s linear, transform 0.08s linear;
   position: relative;
   z-index: 5;
 }
@@ -692,7 +688,7 @@ html,body {
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .section-hero  { padding-left: 20px; padding-right: 20px; padding-bottom: 64px; padding-top: 120px; }
+  .section-hero  { padding-left: 20px; padding-right: 20px; padding-bottom: 64px; padding-top: 200px; }
   .section-about { padding-right: 32px; justify-content: flex-start; padding-left: 32px; }
   .section-join  { padding-left: 32px; }
   .stat-row { gap: 32px; }
@@ -1033,7 +1029,7 @@ html,body {
   .vertical-page-container {
     padding-left: 32px;
     padding-right: 32px;
-    padding-top: 180px;
+    padding-top: 240px;
   }
   .team-table-container,
   .recruit-branch-section {
@@ -2842,8 +2838,8 @@ html,body {
     height: auto;
     opacity: 0.85;
     flex-shrink: 0;
-    margin-left: 24px;
-    margin-top: -6px;
+    margin-left: 40px;
+    margin-top: -10px;
   }
 
   /* When submenu is active, the submenu-items fill the space with wrapping */
@@ -3023,6 +3019,22 @@ html,body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  /* ── Admin Dashboard Mobile ────────────────────────────── */
+  .admin-dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .admin-dashboard-records {
+    max-height: none !important;
+    overflow-y: visible !important;
+  }
+  .admin-logout-label {
+    display: none;
+  }
+  .admin-tab-btn {
+    font-size: 0.85rem !important;
+    padding: 6px 10px !important;
   }
 }
 
