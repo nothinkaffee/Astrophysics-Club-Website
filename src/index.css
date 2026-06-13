@@ -51,7 +51,6 @@ html,body {
   width: 100%;
   background-color: var(--bg-color);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -344,6 +343,12 @@ html,body {
   align-items: center;
   justify-content: center;
   padding: 80px 48px;
+}
+
+@media (max-width: 768px) {
+  .section {
+    min-height: auto;
+  }
 }
 
 .section-inner {
@@ -2143,6 +2148,9 @@ html,body {
   max-width: 100%;
   max-height: 100%;
   padding: 0;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .merch-card:hover .merch-img {

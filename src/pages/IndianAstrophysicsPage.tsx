@@ -80,27 +80,19 @@ export default function IndianAstrophysicsPage() {
     } else {
       setActiveChapter(null);
     }
-    const pageScroll = document.querySelector(".page-scroll");
-    if (pageScroll) pageScroll.scrollTop = 0;
   };
 
   const handleChapterClick = (chapter: Chapter) => {
     setActiveChapter(chapter);
-    const pageScroll = document.querySelector(".page-scroll");
-    if (pageScroll) pageScroll.scrollTop = 0;
   };
 
   const handleBackToChapters = () => {
     setActiveChapter(null);
-    const pageScroll = document.querySelector(".page-scroll");
-    if (pageScroll) pageScroll.scrollTop = 0;
   };
 
   const handleBackToArticles = () => {
     setActiveArticle(null);
     setActiveChapter(null);
-    const pageScroll = document.querySelector(".page-scroll");
-    if (pageScroll) pageScroll.scrollTop = 0;
   };
 
   const handlePrevChapter = () => {
@@ -108,8 +100,6 @@ export default function IndianAstrophysicsPage() {
     const currentIndex = activeArticle.chapters.findIndex(c => c.id === activeChapter.id);
     if (currentIndex > 0) {
       setActiveChapter(activeArticle.chapters[currentIndex - 1]);
-      const pageScroll = document.querySelector(".page-scroll");
-      if (pageScroll) pageScroll.scrollTop = 0;
     }
   };
 
@@ -118,8 +108,6 @@ export default function IndianAstrophysicsPage() {
     const currentIndex = activeArticle.chapters.findIndex(c => c.id === activeChapter.id);
     if (currentIndex < activeArticle.chapters.length - 1) {
       setActiveChapter(activeArticle.chapters[currentIndex + 1]);
-      const pageScroll = document.querySelector(".page-scroll");
-      if (pageScroll) pageScroll.scrollTop = 0;
     }
   };
 
