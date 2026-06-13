@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../hooks/useTheme";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 
-const NAV_ITEMS = [
+const DESKTOP_NAV_ITEMS = [
   { label: "Home",        href: "/",            external: false },
   { label: "About",       href: "/#next",       external: false },
   { label: "Events",      href: "/events",      external: false },
   { label: "Verticals",   href: "/verticals",   external: false, hasSubmenu: true },
   { label: "Sponsorship", href: "/sponsorship", external: false },
   { label: "Recruitment", href: "/recruitment", external: false },
+  { label: "Merchandise", href: "/merchandise", external: false, mobileOnly: true },
   { label: "Gallery",     href: "/gallery",     external: false },
+  { label: "Join Us",     href: "",             external: false, hasSubmenu: true },
   { label: "Blog",        href: "/blog",        external: false },
   { label: "Team",        href: "/team",        external: false },
+];
+
+const DESKTOP_INFO_ITEMS = [
+  { label: "12.9233° N  77.4988° E", href: "https://maps.google.com/?q=12.9233,77.4988", external: true },
+  { label: "Est. 2018  ·  @ RVCE",   href: "https://maps.google.com/?q=12.9233,77.4988", external: true },
+  { label: "Merchandise",            href: "/merchandise",                                external: false },
+  { label: "Instagram",              href: "https://www.instagram.com/dhruva_rvce/",      external: true },
+  { label: "LinkedIn",               href: "https://www.linkedin.com/company/dhruva-astronomy", external: true },
+  { label: "YouTube",                href: "https://www.youtube.com/@dhruva1910",         external: true },
+  { label: "GitHub",                 href: "https://github.com/Team-Dhruva",              external: true },
+  { label: "Admin",                  href: "/admin",                                      external: false },
 ];
 
 const VERTICALS_SUBMENU = [
@@ -23,18 +36,6 @@ const VERTICALS_SUBMENU = [
   { label: "Research",              href: "/verticals/research" },
 ];
 
-const INFO_ITEMS = [
-  { label: "12.9233° N  77.4988° E", href: "https://maps.google.com/?q=12.9233,77.4988", external: true },
-  { label: "Est. 2018  ·  @ RVCE",   href: "https://maps.google.com/?q=12.9233,77.4988", external: true },
-  { label: "Merchandise",            href: "/merchandise",                                external: false },
-  { label: "Instagram",              href: "https://www.instagram.com/dhruva_rvce/",      external: true },
-  { label: "LinkedIn",               href: "https://www.linkedin.com/company/dhruva-astronomy", external: true },
-  { label: "GitHub",                 href: "https://github.com/Team-Dhruva",              external: true },
-  { label: "YouTube",                href: "https://www.youtube.com/@dhruva1910",         external: true },
-  { label: "Join Us",                href: "/recruitment",                                external: false },
-  { label: "Admin",                  href: "/admin",                                      external: false },
-];
-
 const RECRUITMENT_SUBMENU = [
   { label: "Epoch J2023.6", href: "/recruitment/J2023.6" },
   { label: "Epoch J2024.7", href: "/recruitment/J2024.7" },
@@ -42,7 +43,13 @@ const RECRUITMENT_SUBMENU = [
   { label: "Epoch J2026.9", href: "/recruitment/J2026.9" },
 ];
 
-
+const MOBILE_SOCIAL_ITEMS = [
+  { label: "Location",  href: "https://maps.google.com/?q=12.9233,77.4988", title: "Location", icon: "marker" },
+  { label: "Instagram", href: "https://www.instagram.com/dhruva_rvce/",     title: "Instagram", icon: "instagram" },
+  { label: "LinkedIn",  href: "https://www.linkedin.com/company/dhruva-astronomy", title: "LinkedIn", icon: "linkedin" },
+  { label: "GitHub",    href: "https://github.com/Team-Dhruva",            title: "GitHub", icon: "github" },
+  { label: "YouTube",   href: "https://www.youtube.com/@dhruva1910",       title: "YouTube", icon: "youtube" },
+];
 
 const CONSTELLATION_SVG = (
   <svg viewBox="0 0 250 180" className="constellation-svg" width="170" height="120" fill="none" stroke="currentColor">
@@ -94,24 +101,6 @@ export default function SiteHeader() {
         setLoginError("Email/Password provider is disabled in Firebase Console. Please enable it.");
         return;
       }
-      if ((err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") && username === "admin" && password === "adastra") {
-        try {
-          await createUserWithEmailAndPassword(auth, email, password);
-          setUsername("");
-          setPassword("");
-          setActiveSubmenu(null);
-          navigate("/admin");
-          return;
-        } catch (createErr: any) {
-          console.error("Firebase SignUp Error:", createErr.code, createErr.message);
-          if (createErr.code === "auth/operation-not-allowed") {
-            setLoginError("Email/Password provider is disabled in Firebase Console. Please enable it.");
-          } else {
-            setLoginError(createErr.message);
-          }
-          return;
-        }
-      }
       setLoginError("Invalid credentials");
     }
   };
@@ -135,16 +124,37 @@ export default function SiteHeader() {
   const toggle = (menu: "verticals" | "sponsorship" | "recruitment" | "join-us" | "admin") =>
     setActiveSubmenu(prev => (prev === menu ? null : menu));
 
+  const renderSocialIcon = (icon: string) => {
+    switch (icon) {
+      case "marker":
+        return <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>;
+      case "instagram":
+        return <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></svg>;
+      case "linkedin":
+        return <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" /></svg>;
+      case "github":
+        return <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" /></svg>;
+      case "youtube":
+        return <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" /><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" /></svg>;
+      case "admin":
+        return <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>;
+      default:
+        return null;
+    }
+  };
+
+  const hasSubmenuOpen = activeSubmenu === "verticals" || activeSubmenu === "sponsorship" || activeSubmenu === "recruitment" || activeSubmenu === "join-us" || activeSubmenu === "admin";
+
   return (
     <header className="site-header">
-      {/* Logo — top-left, absolutely positioned */}
+      {/* Logo — top-left, absolutely positioned on desktop */}
       <Link to="/" className="header-center" style={{ cursor: "pointer", pointerEvents: "auto" }}>
         {CONSTELLATION_SVG}
       </Link>
 
-      {/* Right nav — absolutely positioned; submenu floats left of it */}
+      {/* Right nav */}
       <nav className="header-right">
-        {/* Submenu panel — absolutely positioned, slides out to the left */}
+        {/* Submenu panel */}
         <div className={`verticals-submenu ${activeSubmenu ? "submenu-open" : ""}`}>
           {activeSubmenu === "verticals" &&
             VERTICALS_SUBMENU.map(s => (
@@ -191,14 +201,49 @@ export default function SiteHeader() {
                 )}
               </form>
             )
-          )}
-        </div>
+            )}
+          </div>
 
-        {/* Stable two-column area: info | divider | nav-links */}
+        {/* Desktop: info | divider | nav-links.
+            Mobile: socials | divider | logo-or-submenu | divider | nav-links */}
         <div className="nav-main-cols">
-          {/* Info column */}
+          {/* Social icons column — visible only on mobile */}
+          <div className="mobile-social-col">
+            {MOBILE_SOCIAL_ITEMS.map(item => (
+              <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" className="mobile-social-link" title={item.title}>
+                {renderSocialIcon(item.icon)}
+              </a>
+            ))}
+            {!authResolved ? (
+              <span className="mobile-social-link" style={{ opacity: 0 }}>{renderSocialIcon("admin")}</span>
+            ) : currentUser ? (
+              <>
+                <Link to="/admin" className="mobile-social-link" title="Dashboard">{renderSocialIcon("admin")}</Link>
+                <button
+                  className="mobile-social-link"
+                  onClick={handleLogout}
+                  type="button"
+                  title="Logout"
+                  style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(220, 38, 38, 0.85)" }}
+                >{renderSocialIcon("admin")}</button>
+              </>
+            ) : (
+              <button
+                className={`mobile-social-link ${activeSubmenu === "admin" ? "nav-active" : ""}`}
+                onClick={e => { e.preventDefault(); toggle("admin"); }}
+                type="button"
+                title="Admin"
+                style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
+              >{renderSocialIcon("admin")}</button>
+            )}
+          </div>
+
+          {/* Left divider — visible only on mobile */}
+          <div className="mobile-left-divider" />
+
+          {/* Info column — hidden on mobile */}
           <div className="info-col">
-            {INFO_ITEMS.map(item =>
+            {DESKTOP_INFO_ITEMS.map(item =>
               item.label === "Join Us" ? (
                 <button
                   key={item.label}
@@ -265,16 +310,84 @@ export default function SiteHeader() {
             )}
           </div>
 
+          {/* Mobile logo area — shows logo normally, submenu items when a submenu is open */}
+          <div className={`mobile-logo-area ${hasSubmenuOpen ? "submenu-active" : ""}`}>
+            {/* Logo (shown when no submenu is open) */}
+            <div className="mobile-logo-wrap">
+              <Link to="/" style={{ display: "flex", pointerEvents: "auto" }}>
+                {CONSTELLATION_SVG}
+              </Link>
+            </div>
+            {/* Submenu items (shown when submenu is open, replacing logo) */}
+            <div className="mobile-submenu-items">
+              {activeSubmenu === "verticals" &&
+                VERTICALS_SUBMENU.map(s => (
+                  <Link key={s.label} to={s.href} className="submenu-link">{s.label}</Link>
+                ))}
+              {activeSubmenu === "sponsorship" && (
+                <div className="submenu-text-wrap">
+                  For sponsorship towards projects and events please contact us. Email us at <a href="https://mail.google.com/mail/?view=cm&fs=1&to=teamdhruva@rvce.edu.in" target="_blank" rel="noopener noreferrer" className="submenu-email-link">teamdhruva@rvce.edu.in</a>
+                </div>
+              )}
+              {activeSubmenu === "recruitment" &&
+                RECRUITMENT_SUBMENU.map(s => (
+                  <Link key={s.label} to={s.href} className="submenu-link">{s.label}</Link>
+                ))}
+              {activeSubmenu === "join-us" && (
+                <div className="submenu-text-wrap" style={{ maxWidth: "320px", whiteSpace: "normal" }}>
+                  Send us a letter of motivation and interests through Email: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=teamdhruva@rvce.edu.in" target="_blank" rel="noopener noreferrer" className="submenu-email-link">teamdhruva@rvce.edu.in</a> and we will get back to you regarding your interview and evaluation as soon as possible
+                </div>
+              )}
+              {activeSubmenu === "admin" && (
+                currentUser ? null : (
+                  <form className="submenu-login-form" onSubmit={handleLoginSubmit}>
+                    <input 
+                      type="text" 
+                      placeholder="Username" 
+                      className="login-input" 
+                      value={username}
+                      onChange={e => setUsername(e.target.value)}
+                      style={{ width: "100%" }}
+                    />
+                    <input 
+                      type="password" 
+                      placeholder="Password" 
+                      className="login-input" 
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                      style={{ width: "100%" }}
+                    />
+                    <button type="submit" className="login-submit-btn" style={{ marginTop: "4px" }}>&gt;</button>
+                    {loginError && (
+                      <span style={{ fontSize: "10px", color: "rgba(220, 38, 38, 0.85)", marginTop: "4px", textTransform: "none", fontFamily: "monospace" }}>
+                        {loginError}
+                      </span>
+                    )}
+                  </form>
+                )
+              )}
+            </div>
+          </div>
+
           {/* Permanent divider */}
           <div className="nav-col-divider" />
 
           {/* Nav links column */}
           <div className="nav-links-col">
-            {NAV_ITEMS.map(item =>
-              item.hasSubmenu ? (
+            {DESKTOP_NAV_ITEMS.map(item =>
+              item.hasSubmenu && item.label === "Join Us" ? (
                 <button
                   key={item.label}
-                  className={`side-nav-link nav-btn ${activeSubmenu === "verticals" ? "nav-active" : ""}`}
+                  className={`side-nav-link nav-btn${item.mobileOnly ? " mobile-only" : ""} ${activeSubmenu === "join-us" ? "nav-active" : ""}`}
+                  onClick={e => { e.preventDefault(); toggle("join-us"); }}
+                  type="button"
+                >
+                  {item.label}
+                </button>
+              ) : item.hasSubmenu ? (
+                <button
+                  key={item.label}
+                  className={`side-nav-link nav-btn${item.mobileOnly ? " mobile-only" : ""} ${activeSubmenu === "verticals" ? "nav-active" : ""}`}
                   onClick={e => { e.preventDefault(); toggle("verticals"); }}
                   type="button"
                 >
@@ -283,7 +396,7 @@ export default function SiteHeader() {
               ) : item.label === "Sponsorship" ? (
                 <button
                   key={item.label}
-                  className={`side-nav-link nav-btn ${activeSubmenu === "sponsorship" ? "nav-active" : ""}`}
+                  className={`side-nav-link nav-btn${item.mobileOnly ? " mobile-only" : ""} ${activeSubmenu === "sponsorship" ? "nav-active" : ""}`}
                   onClick={e => { e.preventDefault(); toggle("sponsorship"); }}
                   type="button"
                 >
@@ -292,7 +405,7 @@ export default function SiteHeader() {
               ) : item.label === "Recruitment" ? (
                 <button
                   key={item.label}
-                  className={`side-nav-link nav-btn ${activeSubmenu === "recruitment" ? "nav-active" : ""}`}
+                  className={`side-nav-link nav-btn${item.mobileOnly ? " mobile-only" : ""} ${activeSubmenu === "recruitment" ? "nav-active" : ""}`}
                   onClick={e => { e.preventDefault(); toggle("recruitment"); }}
                   type="button"
                 >
@@ -303,7 +416,7 @@ export default function SiteHeader() {
                   <a
                     key={item.label}
                     href={item.href}
-                    className="side-nav-link"
+                    className={`side-nav-link${item.mobileOnly ? " mobile-only" : ""}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -313,7 +426,7 @@ export default function SiteHeader() {
                   <Link
                     key={item.label}
                     to={item.href}
-                    className="side-nav-link"
+                    className={`side-nav-link${item.mobileOnly ? " mobile-only" : ""}`}
                   >
                     {item.label}
                   </Link>

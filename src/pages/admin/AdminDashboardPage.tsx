@@ -3,8 +3,7 @@ import { auth, db, storage } from "../../firebase";
 import { 
   onAuthStateChanged, 
   signInWithEmailAndPassword, 
-  signOut, 
-  createUserWithEmailAndPassword 
+  signOut
 } from "firebase/auth";
 import { 
   collection, 
@@ -296,17 +295,6 @@ export default function AdminDashboardPage() {
       setLoginUsername("");
       setLoginPassword("");
     } catch (err: any) {
-      if ((err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") && loginUsername === "admin" && loginPassword === "adastra") {
-        try {
-          await createUserWithEmailAndPassword(auth, email, loginPassword);
-          setLoginUsername("");
-          setLoginPassword("");
-          return;
-        } catch (createErr: any) {
-          setLoginErr(createErr.message);
-          return;
-        }
-      }
       setLoginErr("Invalid admin credentials");
     }
   };
@@ -653,6 +641,22 @@ export default function AdminDashboardPage() {
               </form>
             </div>
           </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!currentUser.email?.endsWith("@teamdhruva.org")) {
+    return (
+      <main className="page-scroll">
+        <div className="vertical-page-container" style={{ minHeight: "90vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "24px", padding: "20px" }}>
+          <h2 style={{ fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.1em", fontSize: "1.2rem", color: "var(--text-color)" }}>Unauthorized</h2>
+          <p style={{ fontFamily: "monospace", fontSize: "0.85rem", color: "var(--text-muted)", maxWidth: "400px", textAlign: "center" }}>
+            Your account does not have admin privileges. Only @teamdhruva.org accounts can access the dashboard.
+          </p>
+          <button onClick={handleLogout} type="button" className="btn btn-primary" style={{ padding: "10px 24px", cursor: "pointer", fontFamily: "monospace", textTransform: "uppercase" }}>
+            Sign Out
+          </button>
         </div>
       </main>
     );

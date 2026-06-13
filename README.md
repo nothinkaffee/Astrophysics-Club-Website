@@ -50,9 +50,9 @@ To run the database and admin dashboard, you need to create and configure a Fire
    ```
    * Open `http://localhost:5173` in your browser.
 
-3. **Admin Registration / Login**:
+3. **Admin Login**:
    * Click **Admin** (or go to `/admin`) in the header menu.
-   * The default credentials are `admin` / `adastra`. On the first attempt, the login module will automatically register this user in Firebase Authentication under `admin@teamdhruva.org`. Once registered, they can be used to log in to access the database manager dashboard.
+   * Log in with the admin credentials set in Firebase Authentication. Only users with a `@teamdhruva.org` email are authorized to write to the database.
 
 ---
 

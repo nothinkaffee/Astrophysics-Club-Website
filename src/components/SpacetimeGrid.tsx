@@ -11,8 +11,8 @@ export default function SpacetimeGrid() {
     let width = window.innerWidth;
     let height = window.innerHeight;
 
-    const cx = width / 2;
-    const cy = height / 2;
+    let cx = width / 2;
+    let cy = height / 2;
 
     // Set viewBox immediately on mount for correct coordinate system
     svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
@@ -110,21 +110,37 @@ export default function SpacetimeGrid() {
 
     setupGridElements();
 
-    const handleResize = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const applyResize = (rect: { width: number; height: number }) => {
+      const prevCx = cx;
+      const prevCy = cy;
+      width = rect.width;
+      height = rect.height;
+      cx = width / 2;
+      cy = height / 2;
+
+      const dx = cx - prevCx;
+      const dy = cy - prevCy;
+      mx1 += dx; my1 += dy;
+      mx2 += dx; my2 += dy;
+      mx3 += dx; my3 += dy;
+
       svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
       setupGridElements();
     };
-    window.addEventListener("resize", handleResize);
 
-    // Re-sync viewBox when browser zoom changes (visualViewport fires on pinch/ctrl-scroll)
-    const handleVisualViewport = () => {
-      if (visualViewport) {
-        svg.setAttribute("viewBox", `0 0 ${window.innerWidth} ${window.innerHeight}`);
-      }
-    };
-    visualViewport?.addEventListener("resize", handleVisualViewport);
+    const ro = new ResizeObserver(([entry]) => {
+      const { inlineSize, blockSize } = entry.contentBoxSize?.[0] ?? entry.contentRect;
+      svg.setAttribute("viewBox", `0 0 ${inlineSize} ${blockSize}`);
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => applyResize({ width: inlineSize, height: blockSize }), 200);
+    });
+    ro.observe(svg);
+
+    window.addEventListener("resize", () => {
+      svg.setAttribute("viewBox", `0 0 ${window.innerWidth} ${window.innerHeight}`);
+    });
 
     // Physics parameters for wave generation
     // Lower waveLength → longer wavelength → smoother, gentler ripples
@@ -421,14 +437,18 @@ export default function SpacetimeGrid() {
 
     svg.addEventListener("mousemove", handleMouseMove);
     svg.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
+    const onWindowResize = () => {
+      svg.setAttribute("viewBox", `0 0 ${window.innerWidth} ${window.innerHeight}`);
+    };
+    window.addEventListener("resize", onWindowResize);
 
     render();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("resize", handleResize);
-      visualViewport?.removeEventListener("resize", handleVisualViewport);
+      if (resizeTimer) clearTimeout(resizeTimer);
+      ro.disconnect();
+      window.removeEventListener("resize", onWindowResize);
       svg.removeEventListener("mousemove", handleMouseMove);
       svg.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
