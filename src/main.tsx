@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, ScrollRestoration } from 'react-router-dom'
 import App from './App.tsx'
 import VerticalPage from './pages/VerticalPage.tsx'
 import EventsPage from './pages/EventsPage.tsx'
@@ -36,6 +36,7 @@ resizeObserver.observe(document.body);
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
+      <ScrollRestoration />
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<App />} />

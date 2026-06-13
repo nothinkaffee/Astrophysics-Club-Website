@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import ScrambleTitle from "./components/ScrambleTitle";
 import AboutSection from "./components/AboutSection";
 
 export default function App() {
+  const location = useLocation();
   const [titleDone, setTitleDone] = useState(false);
   const onTitleComplete = useCallback(() => setTitleDone(true), []);
   const modelViewerRef = useRef<any>(null);
@@ -49,15 +51,18 @@ export default function App() {
 
   // Smooth scroll to About section if hash present
   useEffect(() => {
-    if (window.location.hash === "#next") {
-      const el = document.getElementById("next");
-      if (el) {
-        setTimeout(() => {
+    if (location.hash === "#next") {
+      const tryScroll = (attempt: number) => {
+        const el = document.getElementById("next");
+        if (el) {
           el.scrollIntoView({ behavior: "smooth" });
-        }, 150);
-      }
+        } else if (attempt < 10) {
+          setTimeout(() => tryScroll(attempt + 1), 150);
+        }
+      };
+      tryScroll(0);
     }
-  }, []);
+  }, [location.hash]);
   return (
     <main className="page-scroll">
       <section className="section section-hero">
