@@ -174,12 +174,7 @@ export default function SiteHeader() {
       aria-label="Show header"
     >
       <svg viewBox="0 0 24 24" className="header-reveal-arrow" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="9 18 15 12 9 6" />
-      </svg>
-      <svg viewBox="0 0 24 24" className="header-reveal-arrow" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="17 11 12 6 7 11" />
-      </svg>
-      <svg viewBox="0 0 24 24" className="header-reveal-arrow" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="17 18 12 13 7 18" />
       </svg>
     </button>
