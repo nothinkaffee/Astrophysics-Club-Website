@@ -53,7 +53,7 @@ const MOBILE_SOCIAL_ITEMS = [
 ];
 
 const CONSTELLATION_SVG = (
-  <svg viewBox="0 0 250 180" className="constellation-svg" width="240" height="172" fill="none" stroke="currentColor">
+  <svg viewBox="0 0 250 180" className="constellation-svg" width="280" height="200" fill="none" stroke="currentColor">
     <path d="M 20,40 L 75,48 L 122,92" strokeWidth="1.6" strokeLinecap="round" />
     <path d="M 122,92 L 119,128 L 172,149 L 191,110 Z" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round" />
     <circle cx="20"  cy="40"  r="4.5" strokeWidth="1.2" /><circle cx="20"  cy="40"  r="1.8" fill="currentColor" />
