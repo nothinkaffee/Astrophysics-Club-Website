@@ -45,9 +45,9 @@ const SETTLE_STEP  = 380;  // ms stagger between each char's settlement start
 const NEAR_LEAD    = 380;  // ms before settle to switch to near-miss pool
 const DECEL_DUR    = 540;  // ms of deceleration before hard lock
 
-interface Props { onComplete?: () => void; }
+interface Props { onComplete?: () => void; onScrambleStart?: () => void; }
 
-export default function ScrambleTitle({ onComplete }: Props) {
+export default function ScrambleTitle({ onComplete, onScrambleStart }: Props) {
   const charRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const isHovered = useRef(false);
   const timeoutRefs = useRef<(number | undefined)[]>([]);
@@ -153,6 +153,7 @@ export default function ScrambleTitle({ onComplete }: Props) {
 
   const handleMouseEnter = () => {
     isHovered.current = true;
+    onScrambleStart?.();
     
     FINAL.forEach((_, i) => {
       const el = charRefs.current[i];
