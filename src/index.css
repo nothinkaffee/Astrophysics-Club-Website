@@ -375,7 +375,7 @@ html,body {
   justify-content: flex-start;
   align-items: flex-end;
   padding-top: 150px;
-  padding-bottom: 100px;
+  padding-bottom: 40px;
   padding-left: 96px;
   position: relative;
   touch-action: pan-y;
