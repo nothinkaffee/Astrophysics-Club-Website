@@ -178,7 +178,7 @@ html,body {
   color: #000000;
   text-decoration: none;
   line-height: 1.4;
-  text-align: right;
+  text-align: left;
   transition: color 0.18s;
 }
 
@@ -199,7 +199,7 @@ html,body {
   text-transform: uppercase;
   color: #000000;
   line-height: 1.4;
-  text-align: right;
+  text-align: left;
   transition: color 0.18s;
 }
 
@@ -217,7 +217,7 @@ html,body {
 .nav-links-col {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 2px;
 }
 
@@ -2880,7 +2880,7 @@ html,body {
 
   /* Nav links column — rigid on the right */
   .nav-links-col {
-    align-items: flex-end;
+    align-items: flex-start;
     flex-shrink: 0;
     flex-grow: 0;
   }
@@ -2892,7 +2892,7 @@ html,body {
 
   .nav-links-col .side-nav-link,
   .nav-links-col .nav-btn {
-    text-align: right;
+    text-align: left;
     white-space: nowrap;
   }
 
