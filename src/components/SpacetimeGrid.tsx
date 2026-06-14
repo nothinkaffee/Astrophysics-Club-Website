@@ -484,7 +484,7 @@ export default function SpacetimeGrid() {
         width: "100vw",
         height: "100vh",
         zIndex: 1,
-        pointerEvents: "auto",
+        pointerEvents: "none",
         display: "block",
         backgroundColor: "var(--bg-color)",
       }}
