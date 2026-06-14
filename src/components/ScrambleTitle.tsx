@@ -45,36 +45,27 @@ const SETTLE_STEP  = 380;  // ms stagger between each char's settlement start
 const NEAR_LEAD    = 380;  // ms before settle to switch to near-miss pool
 const DECEL_DUR    = 540;  // ms of deceleration before hard lock
 
-interface Props { onComplete?: () => void; onScrambleStart?: () => void; }
+interface Props { onComplete?: () => void; }
 
-export default function ScrambleTitle({ onComplete, onScrambleStart }: Props) {
+export default function ScrambleTitle({ onComplete }: Props) {
   const charRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const isHovered = useRef(false);
   const timeoutRefs = useRef<(number | undefined)[]>([]);
 
-  const startSettle = (settleStart: number, isInitial: boolean) => {
+  const startSettle = () => {
     let doneCount = 0;
-    
-    // Snappy hover parameters vs dramatic initial parameters
-    const staggerStep = isInitial ? SETTLE_STEP : 60;
-    const nearLead = isInitial ? NEAR_LEAD : 80;
-    const decelDur = isInitial ? DECEL_DUR : 200;
-    const decelMax = isInitial ? DECEL_MAX : 120;
-    const baseDelay = isInitial ? SETTLE_BASE : 0;
+    const settleStart = Date.now();
     
     FINAL.forEach((finalChar, i) => {
       const el = charRefs.current[i];
       if (!el) return;
       
-      const settleAt = baseDelay + SETTLE_ORDER.indexOf(i) * staggerStep;
-      const nearAt = settleAt - nearLead;
-      const doneAt = settleAt + decelDur;
+      const settleAt = SETTLE_BASE + SETTLE_ORDER.indexOf(i) * SETTLE_STEP;
+      const nearAt = settleAt - NEAR_LEAD;
+      const doneAt = settleAt + DECEL_DUR;
       
       clearTimeout(timeoutRefs.current[i]);
       
       const tick = () => {
-        if (isHovered.current) return;
-        
         const elapsed = Date.now() - settleStart;
         
         // Locked
@@ -83,18 +74,16 @@ export default function ScrambleTitle({ onComplete, onScrambleStart }: Props) {
           el.style.color = "var(--text-color)";
           el.style.transition = "color 0.3s ease";
           
-          if (isInitial) {
-            doneCount++;
-            if (doneCount === FINAL.length) {
-              onComplete?.();
-            }
+          doneCount++;
+          if (doneCount === FINAL.length) {
+            onComplete?.();
           }
           return;
         }
         
         // Decelerating
         if (elapsed >= settleAt) {
-          const t = (elapsed - settleAt) / decelDur;
+          const t = (elapsed - settleAt) / DECEL_DUR;
           const pool = NEAR_MISS[i];
           el.textContent = pool[Math.floor(Math.random() * pool.length)];
           const isDark = document.documentElement.classList.contains("dark");
@@ -103,7 +92,7 @@ export default function ScrambleTitle({ onComplete, onScrambleStart }: Props) {
             : Math.round(150 - t * t * 120);
           el.style.color = `rgb(${g},${g},${g + 10})`;
           
-          timeoutRefs.current[i] = window.setTimeout(tick, FAST_MS + t * t * decelMax);
+          timeoutRefs.current[i] = window.setTimeout(tick, FAST_MS + t * t * DECEL_MAX);
           return;
         }
         
@@ -121,28 +110,21 @@ export default function ScrambleTitle({ onComplete, onScrambleStart }: Props) {
         timeoutRefs.current[i] = window.setTimeout(tick, FAST_MS);
       };
       
-      if (isInitial) {
-        const startDelay = 80 + Math.random() * 720;
-        el.textContent = POOL[Math.floor(Math.random() * POOL.length)];
-        el.style.color = "rgb(150,150,162)";
-        timeoutRefs.current[i] = window.setTimeout(tick, startDelay);
-      } else {
-        tick();
-      }
+      const startDelay = 80 + Math.random() * 720;
+      el.textContent = POOL[Math.floor(Math.random() * POOL.length)];
+      el.style.color = "rgb(150,150,162)";
+      timeoutRefs.current[i] = window.setTimeout(tick, startDelay);
     });
   };
 
   useEffect(() => {
-    const mountTime = Date.now();
-    startSettle(mountTime, true);
+    startSettle();
     
-    // Safety fallback for initial onComplete
+    // Safety fallback
     const maxSettleAt = SETTLE_BASE + (FINAL.length - 1) * SETTLE_STEP;
     const maxDoneAt = maxSettleAt + DECEL_DUR;
     const fallback = setTimeout(() => {
-      if (!isHovered.current) {
-        onComplete?.();
-      }
+      onComplete?.();
     }, maxDoneAt + 400);
     
     return () => {
@@ -151,37 +133,9 @@ export default function ScrambleTitle({ onComplete, onScrambleStart }: Props) {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleMouseEnter = () => {
-    isHovered.current = true;
-    onScrambleStart?.();
-    
-    FINAL.forEach((_, i) => {
-      const el = charRefs.current[i];
-      if (!el) return;
-      
-      clearTimeout(timeoutRefs.current[i]);
-      
-      const tick = () => {
-        if (!isHovered.current) return;
-        el.textContent = POOL[Math.floor(Math.random() * POOL.length)];
-        el.style.color = "rgb(150,150,162)";
-        timeoutRefs.current[i] = window.setTimeout(tick, FAST_MS);
-      };
-      
-      tick();
-    });
-  };
-
-  const handleMouseLeave = () => {
-    isHovered.current = false;
-    startSettle(Date.now(), false);
-  };
-
   return (
     <h1
       className="hero-title"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       style={{ cursor: "default", userSelect: "none" }}
     >
       {FINAL.map((_, i) => (

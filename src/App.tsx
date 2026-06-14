@@ -6,12 +6,7 @@ import AboutSection from "./components/AboutSection";
 export default function App() {
   const location = useLocation();
   const [titleDone, setTitleDone] = useState(false);
-  const [scrambling, setScrambling] = useState(true);
-  const onTitleComplete = useCallback(() => {
-    setTitleDone(true);
-    setScrambling(false);
-  }, []);
-  const onScrambleStart = useCallback(() => setScrambling(true), []);
+  const onTitleComplete = useCallback(() => setTitleDone(true), []);
   const modelViewerRef = useRef<any>(null);
   const [loadModel, setLoadModel] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -51,8 +46,8 @@ export default function App() {
     <main className="page-scroll">
       <section className="section section-hero">
         <div className="hero-content">
-          <ScrambleTitle onComplete={onTitleComplete} onScrambleStart={onScrambleStart} />
-          <a href={ctaHref} className={`hero-cta ${titleDone && !scrambling ? "arrow-visible" : "arrow-hidden"}`}>
+          <ScrambleTitle onComplete={onTitleComplete} />
+          <a href={ctaHref} className={`hero-cta ${titleDone ? "arrow-visible" : "arrow-hidden"}`}>
             <span className="cta-arrow">↓</span>
             <span className="cta-arrow">↓</span>
             <span className="cta-arrow">↓</span>
