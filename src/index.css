@@ -1036,12 +1036,12 @@ html,body {
   color: #18181b;
 }
 
-@media (max-width: 768px) {
-  .vertical-page-container {
-    padding-left: 32px;
-    padding-right: 32px;
-    padding-top: 240px;
-  }
+  @media (max-width: 768px) {
+    .vertical-page-container {
+      padding-left: 32px;
+      padding-right: 32px;
+      padding-top: 320px;
+    }
   .team-table-container,
   .recruit-branch-section {
     overflow-x: auto;

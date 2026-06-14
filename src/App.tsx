@@ -69,14 +69,14 @@ export default function App() {
               src="https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/i/ISS_stationary.glb"
               alt="International Space Station 3D Model"
               camera-controls
-              interaction-prompt="none"
-              camera-orbit="-112.3deg 127.8deg 2400m"
-              camera-target="7.88m 11.16m 15.52m"
-              field-of-view="8deg"
-              min-field-of-view="1deg"
-              max-field-of-view="120deg"
-              min-camera-orbit="auto auto 10m"
-              max-camera-orbit="auto auto 50000m"
+              interaction-prompt="auto"
+              camera-orbit="45deg 75deg 15m"
+              camera-target="auto auto auto"
+              field-of-view="25deg"
+              min-field-of-view="5deg"
+              max-field-of-view="45deg"
+              min-camera-orbit="auto auto 5m"
+              max-camera-orbit="auto auto 60m"
               style={{ width: "100%", height: "100%", opacity: 0, transition: "opacity 1s ease" }}
             />
           )}
