@@ -100,16 +100,6 @@ export default function VerticalPage() {
           iaP.style.fontSize = `${exactSize.toFixed(2)}px`;
         }
       }
-
-      // Calculate vertical padding to place the top of the title at ~32% of the viewport (matching the visual position of the landing page tagline)
-      const containerToMeasure = container || iaContainer;
-      if (containerToMeasure) {
-        const newPaddingTop = Math.max(80, window.innerHeight * 0.32);
-        const pageContainer = containerToMeasure.closest(".vertical-page-container") as HTMLElement;
-        if (pageContainer) {
-          pageContainer.style.paddingTop = `${newPaddingTop}px`;
-        }
-      }
     };
 
     updateLayout();

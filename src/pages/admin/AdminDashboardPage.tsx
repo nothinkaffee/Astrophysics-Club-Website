@@ -198,12 +198,6 @@ export default function AdminDashboardPage() {
         const exactSize = (availableWidth / probeWidth) * 100;
         p.style.fontSize = `${exactSize.toFixed(2)}px`;
       }
-
-      const newPaddingTop = Math.max(80, window.innerHeight * 0.32);
-      const pageContainer = container.closest(".vertical-page-container") as HTMLElement;
-      if (pageContainer) {
-        pageContainer.style.paddingTop = `${newPaddingTop}px`;
-      }
     };
 
     updateLayout();
