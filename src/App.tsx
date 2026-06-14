@@ -54,33 +54,35 @@ export default function App() {
           </a>
         </div>
 
-        <div className="hero-iss-container">
-          {loadModel && (
-            /* @ts-ignore */
-            <model-viewer
-              ref={(el: any) => {
-                modelViewerRef.current = el;
-                if (el) {
-                  el.addEventListener("load", () => {
-                    el.style.opacity = "1";
-                  });
-                }
-              }}
-              src="https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/i/ISS_stationary.glb"
-              alt="International Space Station 3D Model"
-              camera-controls
-              interaction-prompt="auto"
-              camera-orbit="-112.3deg 127.8deg 50m"
-              camera-target="auto auto auto"
-              field-of-view="35deg"
-              min-field-of-view="5deg"
-              max-field-of-view="75deg"
-              min-camera-orbit="auto auto 5m"
-              max-camera-orbit="auto auto 500m"
-              style={{ width: "100%", height: "100%", opacity: 0, transition: "opacity 1s ease" }}
-            />
-          )}
-        </div>
+          <div className="hero-iss-container">
+            {loadModel && (
+              /* @ts-ignore */
+              <model-viewer
+                ref={(el: any) => {
+                  modelViewerRef.current = el;
+                  if (el) {
+                    el.addEventListener("load", () => {
+                      el.style.opacity = "1";
+                    });
+                  }
+                }}
+                src="https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/i/ISS_stationary.glb"
+                alt="International Space Station 3D Model"
+                camera-controls
+                interaction-prompt={isMobile ? "auto" : "none"}
+                {...(isMobile ? {} : {
+                  "camera-orbit": "-112.3deg 127.8deg 2400m",
+                  "camera-target": "7.88m 11.16m 15.52m",
+                  "field-of-view": "8deg",
+                  "min-field-of-view": "1deg",
+                  "max-field-of-view": "120deg",
+                  "min-camera-orbit": "auto auto 10m",
+                  "max-camera-orbit": "auto auto 50000m"
+                })}
+                style={{ width: "100%", height: "100%", opacity: 0, transition: "opacity 1s ease" }}
+              />
+            )}
+          </div>
         {/* Invisible overlay: scroll here = page scroll, not model zoom */}
         <div className="hero-scroll-zone" />
       </section>
