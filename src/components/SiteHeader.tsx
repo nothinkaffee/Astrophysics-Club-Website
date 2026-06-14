@@ -180,7 +180,7 @@ export default function SiteHeader() {
       title="Show header"
       aria-label="Show header"
     >
-      <svg viewBox="0 0 24 24" className="header-reveal-arrow" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg viewBox="0 0 24 24" className="header-reveal-arrow" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="17 11 12 6 7 11" />
         <polyline points="17 18 12 13 7 18" />
       </svg>
@@ -272,7 +272,7 @@ export default function SiteHeader() {
                   title="Logout"
                   style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: "rgba(220, 38, 38, 0.85)" }}
                 >
-                  <svg width="17.25" height="17.25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="17.25" height="17.25" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                     <polyline points="16 17 21 12 16 7" />
                     <line x1="21" y1="12" x2="9" y2="12" />
