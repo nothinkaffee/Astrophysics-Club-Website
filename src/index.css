@@ -696,6 +696,8 @@ html,body {
     font-size: clamp(4.5rem, 20vw, 8rem);
     text-align: center;
     white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
   }
   .hero-iss-container {
     position: absolute;
