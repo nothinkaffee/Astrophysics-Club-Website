@@ -39,6 +39,8 @@ export default function App() {
           <ScrambleTitle onComplete={onTitleComplete} />
           <a href="#next" className={`hero-cta ${titleDone ? "hero-fadein" : "hero-hidden"}`}>
             <span className="cta-arrow">↓</span>
+            <span className="cta-arrow">↓</span>
+            <span className="cta-arrow">↓</span>
           </a>
         </div>
 
