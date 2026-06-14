@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App.tsx'
+import AboutPage from './pages/AboutPage.tsx'
 import VerticalPage from './pages/VerticalPage.tsx'
 import EventsPage from './pages/EventsPage.tsx'
 import RecruitmentBatchPage from './pages/RecruitmentBatchPage.tsx'
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<App />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/verticals/:slug" element={<VerticalPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/recruitment/:epoch" element={<RecruitmentBatchPage />} />

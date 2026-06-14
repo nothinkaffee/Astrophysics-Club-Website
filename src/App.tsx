@@ -9,6 +9,13 @@ export default function App() {
   const onTitleComplete = useCallback(() => setTitleDone(true), []);
   const modelViewerRef = useRef<any>(null);
   const [loadModel, setLoadModel] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   // Delay ISS 3D model loading by 1.2s to prioritize page render and responsiveness
   useEffect(() => {
@@ -18,7 +25,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Smooth scroll to About section if hash present
+  // Smooth scroll to About section if hash present (desktop only)
   useEffect(() => {
     if (location.hash === "#next") {
       const tryScroll = (attempt: number) => {
@@ -32,12 +39,15 @@ export default function App() {
       tryScroll(0);
     }
   }, [location.hash]);
+
+  const ctaHref = isMobile ? "/about" : "#next";
+
   return (
     <main className="page-scroll">
       <section className="section section-hero">
         <div className="hero-content">
           <ScrambleTitle onComplete={onTitleComplete} />
-          <a href="#next" className={`hero-cta ${titleDone ? "hero-fadein" : "hero-hidden"}`}>
+          <a href={ctaHref} className={`hero-cta ${titleDone ? "hero-fadein" : "hero-hidden"}`}>
             <span className="cta-arrow">↓</span>
             <span className="cta-arrow">↓</span>
             <span className="cta-arrow">↓</span>
@@ -75,7 +85,7 @@ export default function App() {
         <div className="hero-scroll-zone" />
       </section>
 
-      <AboutSection />
+      {!isMobile && <AboutSection />}
 
       <footer className="site-footer">
         <p className="footer-copy">© 2026 Team Dhruva | Licensed under the MIT License.</p>

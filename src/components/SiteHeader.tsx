@@ -78,6 +78,13 @@ export default function SiteHeader() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [authResolved, setAuthResolved] = useState(false);
   const [headerHidden, setHeaderHidden] = useState(() => localStorage.getItem("headerHidden") === "true");
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   const toggleHeader = () => {
     setHeaderHidden(h => {
@@ -471,7 +478,7 @@ export default function SiteHeader() {
                 ) : (
                   <Link
                     key={item.label}
-                    to={item.href}
+                    to={item.label === "About" && isMobile ? "/about" : item.href}
                     className={`side-nav-link${item.mobileOnly ? " mobile-only" : ""}`}
                   >
                     {item.label}
