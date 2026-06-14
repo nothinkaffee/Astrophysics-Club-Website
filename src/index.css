@@ -511,7 +511,7 @@ html,body {
   justify-content: flex-start;  /* use padding-top to position, not centering */
   padding-left: 96px;
   padding-right: 180px;  /* enough to clear the fixed right nav */
-  padding-top: 80px;   /* JS sets exact value to align with nav Admin bottom */
+  padding-top: 32px;
   padding-bottom: 120px;
   flex-direction: column;
   align-items: flex-start;
