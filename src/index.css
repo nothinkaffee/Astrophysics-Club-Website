@@ -53,6 +53,7 @@ html,body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-anchor: none;
   touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -2112,6 +2113,8 @@ html,body {
   background: transparent;
   border: none;
   box-shadow: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
   transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   display: flex;
   align-items: center;
