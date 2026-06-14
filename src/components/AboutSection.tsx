@@ -73,7 +73,9 @@ export default function AboutSection() {
     // Position headline bottom at 60% of the viewport height
     // so when the about section is fully in view, the tagline sits
     // comfortably in the lower-middle of the screen
-    const targetBottom = window.innerHeight * 0.60;
+    const targetBottom = window.innerWidth <= 768
+      ? window.innerHeight * 0.57
+      : window.innerHeight * 0.60;
     const newPaddingTop = Math.max(40, targetBottom - headlineHeight);
     section.style.paddingTop = `${newPaddingTop}px`;
 
