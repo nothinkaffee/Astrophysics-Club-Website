@@ -467,7 +467,7 @@ html,body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  align-self: flex-start;
+  align-self: flex-end;
   margin-top: 32px;
   font-size: 1.25rem;
   color: #3f3f46;
