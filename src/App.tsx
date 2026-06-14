@@ -70,13 +70,13 @@ export default function App() {
               alt="International Space Station 3D Model"
               camera-controls
               interaction-prompt="auto"
-              camera-orbit="45deg 75deg 15m"
+              camera-orbit="45deg 75deg 35m"
               camera-target="auto auto auto"
               field-of-view="25deg"
               min-field-of-view="5deg"
               max-field-of-view="45deg"
               min-camera-orbit="auto auto 5m"
-              max-camera-orbit="auto auto 60m"
+              max-camera-orbit="auto auto 120m"
               style={{ width: "100%", height: "100%", opacity: 0, transition: "opacity 1s ease" }}
             />
           )}
