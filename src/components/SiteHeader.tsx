@@ -21,7 +21,7 @@ const DESKTOP_NAV_ITEMS = [
 
 const DESKTOP_INFO_ITEMS = [
   { label: "12.9233° N  77.4988° E", href: "https://maps.google.com/?q=12.9233,77.4988", external: true },
-  { label: "Est. 2018  ·  @ RVCE",   href: "https://maps.google.com/?q=12.9233,77.4988", external: true },
+  { label: "Est. 2018  ·  @ RVCE",   href: "https://www.rvce.edu.in/", external: true },
   { label: "Merchandise",            href: "/merchandise",                                external: false },
   { label: "Instagram",              href: "https://www.instagram.com/dhruva_rvce/",      external: true },
   { label: "LinkedIn",               href: "https://www.linkedin.com/company/dhruva-astronomy", external: true },
