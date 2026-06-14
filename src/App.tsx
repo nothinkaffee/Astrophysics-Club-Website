@@ -47,11 +47,13 @@ export default function App() {
       <section className="section section-hero">
         <div className="hero-content">
           <ScrambleTitle onComplete={onTitleComplete} />
-          <a href={ctaHref} className={`hero-cta ${titleDone ? "hero-fadein" : "hero-hidden"}`}>
-            <span className="cta-arrow">↓</span>
-            <span className="cta-arrow">↓</span>
-            <span className="cta-arrow">↓</span>
-          </a>
+          {titleDone && (
+            <a href={ctaHref} className="hero-cta hero-fadein">
+              <span className="cta-arrow">↓</span>
+              <span className="cta-arrow">↓</span>
+              <span className="cta-arrow">↓</span>
+            </a>
+          )}
         </div>
 
           <div className="hero-iss-container">
