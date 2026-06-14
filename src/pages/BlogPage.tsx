@@ -80,16 +80,20 @@ export default function BlogPage() {
     };
 
     updateLayout();
-    const resizeObserver = new ResizeObserver(() => {
-      updateLayout();
-    });
+    let resizeTimer: number;
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(updateLayout, 200);
+    };
+    const resizeObserver = new ResizeObserver(onResize);
     if (containerRef.current) {
       resizeObserver.observe(containerRef.current);
     }
-    window.addEventListener("resize", updateLayout);
+    window.addEventListener("resize", onResize);
 
     return () => {
-      window.removeEventListener("resize", updateLayout);
+      window.removeEventListener("resize", onResize);
+      clearTimeout(resizeTimer);
       resizeObserver.disconnect();
     };
   }, []);
