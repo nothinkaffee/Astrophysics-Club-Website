@@ -122,6 +122,8 @@ If you are a developer taking over this project or forking it, here is how you c
    * Firebase will automatically provision and renew a free SSL certificate for you.
 
 #### Option B: Cloudflare Pages (Free & Custom Domains)
+The repo includes `public/_redirects` (SPA routing fallback) and `public/_headers` (cache control) — Cloudflare Pages reads these automatically.
+
 1. **Connect & Deploy**:
    * Log into your Cloudflare Dashboard, go to **Workers & Pages**, and click **Create Application > Pages > Connect to Git**.
    * Authorize GitHub, select this repository, and set:
