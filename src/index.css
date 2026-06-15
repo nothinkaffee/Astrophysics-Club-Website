@@ -707,7 +707,7 @@ html,body {
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .section-hero  { padding-left: 20px; padding-right: 20px; padding-bottom: 64px; padding-top: 200px; }
-  .section-about { padding-right: 32px; justify-content: flex-start; padding-left: 32px; padding-top: 320px; }
+  .section-about { padding-right: 32px; justify-content: flex-start; padding-left: 32px; padding-top: 400px; }
   .section-join  { padding-left: 32px; }
   .stat-row { gap: 32px; }
   .hero-title {
