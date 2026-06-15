@@ -26,9 +26,8 @@ export default function AboutSection() {
   }, []);
 
   const updateLayout = useCallback(() => {
-    const section   = sectionRef.current;
     const container = headlineRef.current;
-    if (!section || !container) return;
+    if (!container) return;
 
     const p = container.querySelector("p");
     if (p) {
@@ -67,34 +66,6 @@ export default function AboutSection() {
         p.style.fontSize = `${exactSize.toFixed(2)}px`;
       }
     }
-
-    const headlineHeight = container.getBoundingClientRect().height || 130;
-
-    // Position headline bottom at 60% of the viewport height
-    // so when the about section is fully in view, the tagline sits
-    // comfortably in the lower-middle of the screen
-    const targetBottom = window.innerWidth <= 768
-      ? window.innerHeight * 0.57
-      : window.innerHeight * 0.60;
-    const newPaddingTop = Math.max(40, targetBottom - headlineHeight);
-    section.style.paddingTop = `${newPaddingTop}px`;
-
-    // Position padding-bottom to keep a gap below the header when scrolled down
-    const headerEl = document.querySelector(".site-header") as HTMLElement | undefined;
-    const footerEl = document.querySelector(".site-footer") as HTMLElement | undefined;
-    const columnsEl = section.querySelector(".about-columns") as HTMLElement | undefined;
-
-    if (headerEl && footerEl && columnsEl) {
-      const headerBottom = headerEl.getBoundingClientRect().bottom;
-      const footerHeight = footerEl.getBoundingClientRect().height;
-      const columnsHeight = columnsEl.getBoundingClientRect().height;
-      const gap = columnsEl.getBoundingClientRect().top - container.getBoundingClientRect().bottom;
-
-      // We want a gap of 48px below the header and the top of the title (container)
-      const targetGapBelowHeader = 48;
-      const computedPaddingBottom = window.innerHeight - (headerBottom + targetGapBelowHeader) - footerHeight - columnsHeight - gap - headlineHeight;
-      section.style.paddingBottom = `${Math.max(40, computedPaddingBottom)}px`;
-    }
   }, []);
 
   // Update layout when element visibility changes
@@ -104,7 +75,7 @@ export default function AboutSection() {
     }
   }, [visible, updateLayout]);
 
-  // Update layout on window resize
+  // Update layout on window resize (font scaling only, no padding changes)
   useEffect(() => {
     window.addEventListener("resize", updateLayout);
     return () => window.removeEventListener("resize", updateLayout);

@@ -138,10 +138,6 @@ export default function SpacetimeGrid() {
     });
     ro.observe(svg);
 
-    window.addEventListener("resize", () => {
-      svg.setAttribute("viewBox", `0 0 ${window.innerWidth} ${window.innerHeight}`);
-    });
-
     // Physics parameters for wave generation
     // Lower waveLength → longer wavelength → smoother, gentler ripples
     // Lower waveSpeed  → slow-moving wavefronts
@@ -481,8 +477,8 @@ export default function SpacetimeGrid() {
         position: "fixed",
         top: 0,
         left: 0,
-        width: "100vw",
-        height: "100vh",
+        width: "100dvw",
+        height: "100dvh",
         zIndex: 1,
         pointerEvents: "none",
         display: "block",

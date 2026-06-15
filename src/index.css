@@ -52,6 +52,7 @@ html,body {
   background-color: var(--bg-color);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-anchor: none;
+  overscroll-behavior: none;
   touch-action: pan-y;
   -webkit-tap-highlight-color: transparent;
   color: var(--text-color);
@@ -380,6 +381,7 @@ html,body {
   position: relative;
   touch-action: pan-y;
   min-height: 100svh;
+  min-height: 100dvh;
 }
 
 /* Invisible overlay covering the bottom of the hero (where the title sits).
@@ -705,7 +707,7 @@ html,body {
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .section-hero  { padding-left: 20px; padding-right: 20px; padding-bottom: 64px; padding-top: 200px; }
-  .section-about { padding-right: 32px; justify-content: flex-start; padding-left: 32px; }
+  .section-about { padding-right: 32px; justify-content: flex-start; padding-left: 32px; padding-top: 320px; }
   .section-join  { padding-left: 32px; }
   .stat-row { gap: 32px; }
   .hero-title {
@@ -866,6 +868,7 @@ html,body {
 /* ── Verticals Section & Project Cards ────────────────────────────────────── */
 .vertical-page-container {
   min-height: calc(100vh - 120px);
+  min-height: calc(100dvh - 120px);
   padding-left: 96px;
   padding-right: 180px;
   padding-top: 420px;
@@ -879,6 +882,7 @@ html,body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100dvh;
   padding-top: 120px;
   padding-bottom: 120px;
   box-sizing: border-box;
