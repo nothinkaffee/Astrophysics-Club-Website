@@ -75,10 +75,17 @@ export default function AboutSection() {
     }
   }, [visible, updateLayout]);
 
-  // Update layout on window resize (font scaling only, no padding changes)
+  // Update layout on window resize (font scaling only, guarded against height-only changes)
   useEffect(() => {
-    window.addEventListener("resize", updateLayout);
-    return () => window.removeEventListener("resize", updateLayout);
+    let lastWidth = window.innerWidth;
+    const onResize = () => {
+      const w = window.innerWidth;
+      if (w === lastWidth) return;
+      lastWidth = w;
+      updateLayout();
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, [updateLayout]);
 
   // Update layout when the columns resize (e.g. image loads, text wrap changes)

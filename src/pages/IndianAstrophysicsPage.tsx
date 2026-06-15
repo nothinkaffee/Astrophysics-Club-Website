@@ -53,7 +53,11 @@ export default function IndianAstrophysicsPage() {
 
     updateLayout();
     let resizeTimer: number;
+    let lastWidth = window.innerWidth;
     const onResize = () => {
+      const w = window.innerWidth;
+      if (w === lastWidth) return;
+      lastWidth = w;
       clearTimeout(resizeTimer);
       resizeTimer = window.setTimeout(updateLayout, 200);
     };
