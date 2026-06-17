@@ -139,3 +139,37 @@ The repo includes `public/_redirects` (SPA routing fallback) and `public/_header
 * **Mobile Responsiveness**: The desktop and laptop layouts are fully implemented. The next step is adapting the CSS and layout structure for mobile phones. Check the [KNOWLEDGE_TRANSFER.md](file:///home/neo/club/KNOWLEDGE_TRANSFER.md) file for a detailed checklist and guidelines.
 * **Security Rules**: Ensure `firestore.rules` and `storage.rules` are deployed alongside hosting to prevent unauthorized access to your database.
 
+---
+
+## 7. Deploy on Cloudflare Pages (from GitHub) with Firebase Backend
+
+### Architecture
+- **Hosting**: Cloudflare Pages — auto-builds from GitHub on every push.
+- **Domain**: Managed entirely by Cloudflare (no Firebase Hosting).
+- **Backend**: Firebase (Firestore + Auth + Storage) — backend services only.
+
+### A. Enable Firebase Storage
+1. Go to [Firebase Console](https://console.firebase.google.com/) → your project.
+2. Click **Build > Storage > Get Started**, choose a location, set initial rules (test mode is fine).
+3. Deploy storage & firestore rules:
+   ```bash
+   npx firebase deploy --only storage,firestore
+   ```
+
+### B. Deploy on Cloudflare Pages (auto-build from GitHub)
+1. Log into [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Workers & Pages**.
+2. Click **Create Application > Pages > Connect to Git**.
+3. Authorize GitHub and select this repository.
+4. Configure build settings:
+   - **Framework preset**: Vite (or "None" and set manually)
+   - **Build command**: `npm run build`
+   - **Build output directory**: `dist`
+5. Under **Settings > Environment Variables**, add all `VITE_FIREBASE_*` keys (the same ones from `.env.example`). These are injected at build time so the app can reach Firebase.
+6. Click **Save and Deploy** — Cloudflare builds and deploys instantly. Every future push to the repo auto-triggers a new build.
+
+### C. Set Up Your Custom Domain
+1. In Cloudflare Pages → your project → **Custom Domains**.
+2. Click **Set up a custom domain** and enter your domain (e.g., `astrophysics.rvce.edu.in`).
+3. Cloudflare automatically adds the required DNS records (CNAME for subdomain / A+AAAA for apex) with orange-cloud proxy enabled — free SSL, DDoS protection, and caching included.
+4. That's it — the domain is live and secured by Cloudflare's edge network.
+
