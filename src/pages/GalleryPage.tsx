@@ -1,12 +1,69 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { GALLERY_IMAGES, GalleryImage } from "../data/galleryData";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "../firebase";
+import Breadcrumbs from "../components/Breadcrumbs";
+import SiteFooter from "../components/SiteFooter";
 
 export default function GalleryPage() {
   const [images, setImages] = useState<GalleryImage[]>(GALLERY_IMAGES);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const selectedImage = selectedIndex !== null ? images[selectedIndex] : null;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const updateLayout = () => {
+      const container = containerRef.current;
+      const p = textRef.current;
+      if (!container || !p) return;
+      const availableWidth = container.getBoundingClientRect().width;
+      const measureContainer = document.createElement("div");
+      measureContainer.style.fontFamily = getComputedStyle(p).fontFamily || "'Helvetica Neue', 'HelveticaNeue', Helvetica, Arial, sans-serif";
+      measureContainer.style.fontWeight = getComputedStyle(p).fontWeight || "800";
+      measureContainer.style.letterSpacing = "-0.04em";
+      measureContainer.style.fontSize = "100px";
+      measureContainer.style.position = "absolute";
+      measureContainer.style.visibility = "hidden";
+      measureContainer.style.whiteSpace = "nowrap";
+      const text = "Gallery";
+      const chars = text.split("");
+      chars.forEach(ch => {
+        const s = document.createElement("span");
+        if (ch === " ") { s.innerHTML = "&nbsp;"; }
+        else { s.textContent = ch; }
+        measureContainer.appendChild(s);
+      });
+      document.body.appendChild(measureContainer);
+      const containerLeft = measureContainer.getBoundingClientRect().left;
+      const lastSpan = measureContainer.lastElementChild;
+      const lastSpanRight = lastSpan ? lastSpan.getBoundingClientRect().right : measureContainer.getBoundingClientRect().right;
+      const probeWidth = lastSpanRight - containerLeft;
+      document.body.removeChild(measureContainer);
+      if (availableWidth > 0 && probeWidth > 0) {
+        const exactSize = Math.min((availableWidth / probeWidth) * 100, 96);
+        p.style.fontSize = `${exactSize.toFixed(2)}px`;
+      }
+    };
+    updateLayout();
+    let resizeTimer: number;
+    let lastWidth = window.innerWidth;
+    const onResize = () => {
+      const w = window.innerWidth;
+      if (w === lastWidth) return;
+      lastWidth = w;
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(updateLayout, 200);
+    };
+    const resizeObserver = new ResizeObserver(onResize);
+    if (containerRef.current) resizeObserver.observe(containerRef.current);
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      clearTimeout(resizeTimer);
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const fetchGallery = async () => {
@@ -57,7 +114,11 @@ export default function GalleryPage() {
   return (
     <>
       <main className="page-scroll">
-        <div className="vertical-page-container" style={{ paddingRight: "32px", paddingLeft: "32px", paddingTop: "350px" }}>
+        <Breadcrumbs />
+        <div className="vertical-page-container">
+          <div ref={containerRef} className="radio-headline">
+            <h1 ref={textRef} className="radio-headline-text">{"Gallery".split("").map((ch, i) => (<span key={i}>{ch === " " ? " " : ch}</span>))}</h1>
+          </div>
           {/* Photo Grid covering the whole width */}
           <div className="gallery-grid-container" style={{ pointerEvents: "auto" }}>
             {images.map((img, index) => {
@@ -87,9 +148,7 @@ export default function GalleryPage() {
           </div>
         </div>
 
-        <footer className="site-footer">
-          <p className="footer-copy">© 2026 Team Dhruva | Licensed under the MIT License.</p>
-        </footer>
+        <SiteFooter />
       </main>
 
       {/* Lightbox Modal Overlay showing only image and nav buttons */}

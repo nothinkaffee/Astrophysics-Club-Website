@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import Breadcrumbs from "./components/Breadcrumbs";
 import ScrambleTitle from "./components/ScrambleTitle";
 import AboutSection from "./components/AboutSection";
+import SiteFooter from "./components/SiteFooter";
 
 export default function App() {
   const location = useLocation();
@@ -40,10 +42,11 @@ export default function App() {
     }
   }, [location.hash]);
 
-  const ctaHref = isMobile ? "/about" : "#next";
+  const ctaHref = "#next";
 
   return (
     <main className="page-scroll">
+      <Breadcrumbs />
       <section className="section section-hero">
         <div className="hero-content">
           <ScrambleTitle onComplete={onTitleComplete} />
@@ -70,11 +73,9 @@ export default function App() {
                 alt="International Space Station 3D Model"
                 camera-controls
                 interaction-prompt={isMobile ? "auto" : "none"}
-                {...(!isMobile ? {
-                  "camera-orbit": "-112.3deg 127.8deg 2400m",
-                  "camera-target": "7.88m 11.16m 15.52m",
-                  "field-of-view": "8deg"
-                } : {})}
+                camera-orbit="-112.3deg 127.8deg 2400m"
+                camera-target="7.88m 11.16m 15.52m"
+                field-of-view="8deg"
                 style={{ width: "100%", height: "100%", opacity: 0, transition: "opacity 1s ease" }}
               />
             )}
@@ -83,11 +84,9 @@ export default function App() {
         <div className="hero-scroll-zone" />
       </section>
 
-      {!isMobile && <AboutSection />}
+      <AboutSection />
 
-      <footer className="site-footer">
-        <p className="footer-copy">© 2026 Team Dhruva | Licensed under the MIT License.</p>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

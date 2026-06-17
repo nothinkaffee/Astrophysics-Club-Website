@@ -62,7 +62,7 @@ export default function AboutSection() {
       document.body.removeChild(measureContainer);
 
       if (availableWidth > 0 && probeWidth > 0) {
-        const exactSize = (availableWidth / probeWidth) * 100;
+        const exactSize = Math.min((availableWidth / probeWidth) * 100, 96);
         p.style.fontSize = `${exactSize.toFixed(2)}px`;
       }
     }
@@ -109,7 +109,7 @@ export default function AboutSection() {
         {visible && (
           <p className="about-headline-text">
             {"Astrophysics and Astronomy Club".split("").map((ch, i) => (
-              <span key={i}>{ch === " " ? "\u00A0" : ch}</span>
+              <span key={i}>{ch === " " ? " " : ch}</span>
             ))}
           </p>
         )}

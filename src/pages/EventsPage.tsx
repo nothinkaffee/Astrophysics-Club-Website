@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { EVENTS, EventDetail } from "../data/eventsData";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import Breadcrumbs from "../components/Breadcrumbs";
+import SiteFooter from "../components/SiteFooter";
 
 export default function EventsPage() {
   const [eventsList, setEventsList] = useState<EventDetail[]>(EVENTS);
@@ -66,7 +68,7 @@ export default function EventsPage() {
       document.body.removeChild(measureContainer);
 
       if (availableWidth > 0 && probeWidth > 0) {
-        const exactSize = (availableWidth / probeWidth) * 100;
+        const exactSize = Math.min((availableWidth / probeWidth) * 100, 96);
         p.style.fontSize = `${exactSize.toFixed(2)}px`;
       }
     };
@@ -104,6 +106,7 @@ export default function EventsPage() {
 
   return (
     <main className="page-scroll">
+      <Breadcrumbs />
       <div className="vertical-page-container">
         <div ref={containerRef} className="radio-headline">
           <h1 
@@ -113,7 +116,7 @@ export default function EventsPage() {
             style={{ cursor: activeEvent ? "pointer" : "default" }}
           >
             {"Events".split("").map((ch, i) => (
-              <span key={i}>{ch === " " ? "\u00A0" : ch}</span>
+              <span key={i}>{ch === " " ? " " : ch}</span>
             ))}
           </h1>
         </div>
@@ -231,9 +234,7 @@ export default function EventsPage() {
         )}
       </div>
 
-      <footer className="site-footer">
-        <p className="footer-copy">© 2026 Team Dhruva | Licensed under the MIT License.</p>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

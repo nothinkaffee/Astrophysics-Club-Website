@@ -71,3 +71,12 @@
 - `/home/neo/club/src/components/SpacetimeGrid.tsx`: SVG `pointerEvents: "none"`.
 - `/home/neo/club/scroll-snap-analysis.md`: Root cause analysis of mobile scroll snap.
 - `/home/neo/club/firebase.json`: Hosting config with cache-control headers, rewrites.
+
+## Session Updates (Jun 17, 2026)
+- Hamburger drawer: translucent background (rgba(10,10,12,0.7) + blur(50px))
+- Mobile header logo: reduced to 80px to match hamburger size
+- Created Breadcrumbs.tsx component (DM Mono, hierarchical path labels)
+- Added breadcrumbs to App.tsx and all 10 page files
+- Footer: proper 3-col grid, 64px gap, centered layout
+- Page padding: reduced hero, vertical page, about section for minimal header
+- #next scroll-margin-top: 360px → 120px

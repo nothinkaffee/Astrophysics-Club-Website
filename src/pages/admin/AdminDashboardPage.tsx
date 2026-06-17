@@ -18,6 +18,8 @@ import {
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../../hooks/useTheme";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import SiteFooter from "../../components/SiteFooter";
 
 // Types
 interface GalleryItem {
@@ -195,7 +197,7 @@ export default function AdminDashboardPage() {
       document.body.removeChild(measureContainer);
 
       if (availableWidth > 0 && probeWidth > 0) {
-        const exactSize = (availableWidth / probeWidth) * 100;
+        const exactSize = Math.min((availableWidth / probeWidth) * 100, 96);
         p.style.fontSize = `${exactSize.toFixed(2)}px`;
       }
     };
@@ -587,6 +589,7 @@ export default function AdminDashboardPage() {
   if (loadingUser) {
     return (
       <main className="page-scroll">
+        <Breadcrumbs />
         <div className="vertical-page-container" style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
           <p style={{ fontFamily: "monospace", color: "var(--text-muted)", fontSize: "0.85rem", textTransform: "uppercase" }}>Loading...</p>
         </div>
@@ -597,6 +600,7 @@ export default function AdminDashboardPage() {
   if (!currentUser) {
     return (
       <main className="page-scroll">
+        <Breadcrumbs />
         <div className="vertical-page-container" style={{ minHeight: "90vh", display: "flex", justifyContent: "center", alignItems: "center", padding: "20px" }}>
           <div className="vertical-project-card" style={{ maxWidth: "400px", width: "100%", pointerEvents: "auto" }}>
             <div className="card-content">
@@ -651,6 +655,7 @@ export default function AdminDashboardPage() {
   if (!currentUser.email?.endsWith("@teamdhruva.org")) {
     return (
       <main className="page-scroll">
+        <Breadcrumbs />
         <div className="vertical-page-container" style={{ minHeight: "90vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "24px", padding: "20px" }}>
           <h2 style={{ fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.1em", fontSize: "1.2rem", color: "var(--text-color)" }}>Unauthorized</h2>
           <p style={{ fontFamily: "monospace", fontSize: "0.85rem", color: "var(--text-muted)", maxWidth: "400px", textAlign: "center" }}>
@@ -666,13 +671,14 @@ export default function AdminDashboardPage() {
 
   return (
     <main className="page-scroll">
+      <Breadcrumbs />
       <div className="vertical-page-container">
         
         {/* Header exact match with team and events */}
         <div ref={containerRef} className="radio-headline">
           <h1 ref={textRef} className="radio-headline-text">
             {"Database".split("").map((ch, i) => (
-              <span key={i}>{ch === " " ? "\u00A0" : ch}</span>
+              <span key={i}>{ch === " " ? " " : ch}</span>
             ))}
           </h1>
         </div>
@@ -1194,9 +1200,7 @@ export default function AdminDashboardPage() {
 
       </div>
       
-      <footer className="site-footer">
-        <p className="footer-copy">© 2026 Team Dhruva | Licensed under the MIT License.</p>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

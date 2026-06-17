@@ -1,12 +1,13 @@
+import Breadcrumbs from "../components/Breadcrumbs";
 import AboutSection from "../components/AboutSection";
+import SiteFooter from "../components/SiteFooter";
 
 export default function AboutPage() {
   return (
     <main className="page-scroll">
+      <Breadcrumbs />
       <AboutSection />
-      <footer className="site-footer">
-        <p className="footer-copy">© 2026 Team Dhruva | Licensed under the MIT License.</p>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

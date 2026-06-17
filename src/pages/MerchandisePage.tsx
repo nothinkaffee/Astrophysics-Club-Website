@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import Breadcrumbs from "../components/Breadcrumbs";
+import SiteFooter from "../components/SiteFooter";
 
 interface MerchItem {
   src: string;
@@ -98,7 +100,7 @@ export default function MerchandisePage() {
       document.body.removeChild(measureContainer);
 
       if (availableWidth > 0 && probeWidth > 0) {
-        const exactSize = (availableWidth / probeWidth) * 100;
+        const exactSize = Math.min((availableWidth / probeWidth) * 100, 96);
         p.style.fontSize = `${exactSize.toFixed(2)}px`;
       }
     };
@@ -129,17 +131,17 @@ export default function MerchandisePage() {
   return (
     <>
       <main className="page-scroll">
-        <div className="vertical-page-container" style={{ paddingRight: "32px", paddingLeft: "32px", paddingTop: "350px" }}>
-          {/* Title - exactly aligned with the grid */}
-          <div ref={containerRef} className="radio-headline" style={{ padding: "0 16px" }}>
+        <Breadcrumbs />
+        <div className="vertical-page-container">
+          <div ref={containerRef} className="radio-headline">
             <h1 ref={textRef} className="radio-headline-text">
               {"Merchandise".split("").map((ch, i) => (
-                <span key={i}>{ch === " " ? "\u00A0" : ch}</span>
+                <span key={i}>{ch === " " ? " " : ch}</span>
               ))}
             </h1>
           </div>
 
-          <div className="merch-grid-container" style={{ pointerEvents: "auto" }}>
+          <div className="merch-grid-container" style={{ marginTop: "40px", pointerEvents: "auto" }}>
             {merchItems.map((item, index) => {
               return (
                 <div
@@ -155,9 +157,7 @@ export default function MerchandisePage() {
           </div>
         </div>
 
-        <footer className="site-footer">
-          <p className="footer-copy">© 2026 Team Dhruva | Licensed under the MIT License.</p>
-        </footer>
+        <SiteFooter />
       </main>
     </>
   );
