@@ -761,7 +761,6 @@ html,body {
     white-space: normal !important;
     overflow-wrap: normal !important;
     word-break: keep-all !important;
-    word-spacing: 100vw !important;
     line-height: 1.1 !important;
   }
 
@@ -770,7 +769,6 @@ html,body {
     font-size: clamp(3rem, 12vw, 6rem) !important;
     overflow-wrap: normal !important;
     word-break: keep-all !important;
-    word-spacing: 100vw !important;
   }
   .about-columns {
     grid-template-columns: 1fr;
@@ -787,7 +785,6 @@ html,body {
     white-space: normal !important;
     overflow-wrap: normal !important;
     word-break: keep-all !important;
-    word-spacing: 100vw !important;
     line-height: 1.1 !important;
   }
   .nav-col-divider,
